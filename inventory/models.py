@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from common.models import ActiveStatusMixin
 
@@ -57,3 +59,16 @@ class Equipment(ActiveStatusMixin, models.Model):
 
     def __str__(self):
         return f'{self.brand} {self.model} ({self.get_equipment_type_display()})'
+
+    def clean(self):
+        super().clean()
+        if self.internal_id is not None:
+            self.internal_id = self.internal_id.strip()
+
+    def save(self, *args, **kwargs):
+        self.internal_id = (self.internal_id or '').strip()
+
+        if not self.internal_id:
+            self.internal_id = f'INV-{uuid.uuid4().hex[:8].upper()}'
+
+        super().save(*args, **kwargs)

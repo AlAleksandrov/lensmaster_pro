@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Portfolio - LensMaster Pro{% endblock %}
+
+{% block content %}
+<h1>Our Services & Portfolio</h1>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+    {% for category in categories %}
+    <div style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        {% if category.cover_image %}
+            <img src="{{ category.cover_image.url }}" style="width: 100%; height: 200px; object-fit: cover;">
+        {% endif %}
+        <div style="padding: 15px;">
+            <h3>{{ category.name }}</h3>
+            <p>{{ category.description|truncatewords:20 }}</p>
+            <a href="{% url 'production_list_by_category' category.slug %}" style="color: #007bff; text-decoration: none; font-weight: bold;">View Projects &rarr;</a>
+        </div>
+    </div>
+    {% empty %}
+        <p>No categories found. Add some in the Admin panel!</p>
+    {% endfor %}
+</div>
+{% endblock %}

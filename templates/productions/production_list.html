@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} Projects - LensMaster Pro{% endblock %}
+
+{% block content %}
+<nav style="background: none; padding: 0; margin-bottom: 20px;">
+    <a href="{% url 'category_list' %}" style="color: #666;">&larr; Back to Categories</a>
+</nav>
+
+<h1>{{ category.name }}</h1>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+    {% for production in productions %}
+    <div style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        {% if production.cover_image %}
+            <img src="{{ production.cover_image.url }}" style="width: 100%; height: 200px; object-fit: cover;">
+        {% endif %}
+        <div style="padding: 15px;">
+            <h3>{{ production.title }}</h3>
+            <p><strong>Location:</strong> {{ production.location }}</p>
+            <p>{{ production.short_description }}</p>
+            <a href="{% url 'production_detail' production.slug %}" style="display: inline-block; margin-top: 10px; background: #333; color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none;">View Details</a>
+        </div>
+    </div>
+    {% empty %}
+        <p>No projects found in this category yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ production.title }} - LensMaster Pro{% endblock %}
+
+{% block content %}
+<nav style="margin-bottom: 20px;">
+    <a href="{% url 'production_list_by_category' production.category.slug %}" style="color: #666;">&larr; Back to {{ production.category.name }}</a>
+</nav>
+
+<div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+    {% if production.cover_image %}
+        <img src="{{ production.cover_image.url }}" style="width: 100%; max-height: 500px; object-fit: cover;">
+    {% endif %}
+
+    <div style="padding: 40px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <h1>{{ production.title }}</h1>
+            <span style="background: #eee; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
+                {{ production.date_created|date:"F Y" }}
+            </span>
+        </div>
+
+        <p style="font-size: 1.2rem; color: #555; margin-bottom: 30px;">
+            <strong>Location:</strong> {{ production.location }}
+        </p>
+
+        <div style="line-height: 1.8; color: #333; font-size: 1.1rem;">
+            {{ production.description|linebreaks }}
+        </div>
+
+        {% if production.video_url %}
+            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;">
+                <h3>Watch Video</h3>
+                <a href="{{ production.video_url }}" target="_blank" style="color: #d9534f; text-decoration: none; font-weight: bold;">
+                    View on External Platform &rarr;
+                </a>
+            </div>
+        {% endif %}
+
+        <div style="margin-top: 40px;">
+            <a href="{% url 'booking_request' %}" style="background: #007bff; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; display: inline-block; font-weight: bold;">
+                Book a Similar Session
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

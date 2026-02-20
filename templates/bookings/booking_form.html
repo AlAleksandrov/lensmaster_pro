@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Request a Booking - LensMaster Pro{% endblock %}
+
+{% block content %}
+<div style="background: white; padding: 2rem; border-radius: 8px; shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <h1>Request a Booking</h1>
+    <p>Fill out the form below and we will get back to you as soon as possible.</p>
+    
+    <form method="post" novalidate>
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; font-weight: bold;">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="errorlist">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+        <button type="submit" style="background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">
+            Send Request
+        </button>
+    </form>
+</div>
+{% endblock %}
