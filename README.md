@@ -166,6 +166,16 @@ Last verified on: 2026-02-21
 
 ---
 
+## 🖼️ Screenshots
+
+![Home page](static/images/screenshot-home.png)
+
+![Portfolio page](static/images/screenshot-portfolio.png)
+
+![Production details](static/images/screenshot-production.png)
+
+---
+
 ## 🧪 How to add sample data (via Django admin)
 
 Authentication for the public site is intentionally excluded (exam requirement). For demo/testing, you can use the standard Django admin panel to add sample content.
