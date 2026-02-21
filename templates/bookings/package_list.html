@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Packages - LensMaster Pro{% endblock %}
+
+{% block content %}
+<div class="py-5">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="fw-bold text-white mb-1">Our Service Packages</h1>
+            <p class="text-secondary">Choose the package that fits your event best.</p>
+        </div>
+        {% if user.is_authenticated %}
+        <a href="{% url 'bookings:package_create' %}" class="btn btn-outline-success px-4 rounded-pill">
+            + Add Package
+        </a>
+        {% endif %}
+    </div>
+
+    <!-- PACKAGES GROUPED BY CATEGORY -->
+    {% regroup packages by category as packages_by_category %}
+
+    {% for group in packages_by_category %}
+    <div class="mb-5">
+        <h4 class="fw-bold text-uppercase text-secondary border-bottom border-secondary pb-2 mb-4">
+            {{ group.grouper }}
+        </h4>
+
+        <div class="row g-4">
+            {% for package in group.list %}
+            <div class="col-md-4">
+                <div class="card h-100 bg-dark text-white border-secondary shadow-sm rounded-4 overflow-hidden">
+                    <div class="card-body p-4">
+
+                        <!-- PACKAGE NAME & PRICE -->
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="fw-bold mb-0">{{ package.name }}</h5>
+                            <span class="badge bg-success fs-6 rounded-pill px-3">€{{ package.price }}</span>
+                        </div>
+
+                        <!-- DESCRIPTION -->
+                        {% if package.description %}
+                        <p class="text-secondary small mb-3">{{ package.description }}</p>
+                        {% endif %}
+
+                        <hr class="border-secondary">
+
+                        <!-- DETAILS -->
+                        <ul class="list-unstyled small mb-0">
+                            <li class="mb-2 d-flex align-items-center gap-2">
+                                <span class="text-info">⏱</span>
+                                <span class="text-white-50">Duration:</span>
+                                <strong>{{ package.duration_hours }} hours</strong>
+                            </li>
+                            <li class="d-flex align-items-center gap-2">
+                                <span class="text-info">📷</span>
+                                <span class="text-white-50">Edited photos:</span>
+                                <strong>{{ package.max_photos_included }}+</strong>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- CARD FOOTER -->
+                    <div class="card-footer bg-black border-secondary d-flex justify-content-between align-items-center py-3 px-4">
+                        <a href="{% url 'bookings:booking_create' %}" class="btn btn-outline-light btn-sm rounded-pill px-3">
+                            Book Now →
+                        </a>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'bookings:package_edit' package.pk %}" class="text-secondary small text-decoration-none">
+                            Edit
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="text-center py-5 text-secondary">
+        <p class="fs-5">No packages available at the moment.</p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'bookings:package_create' %}" class="btn btn-outline-success mt-3 rounded-pill px-4">
+            + Create First Package
+        </a>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

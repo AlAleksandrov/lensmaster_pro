@@ -3,45 +3,115 @@
 {% block title %}{{ production.title }} - LensMaster Pro{% endblock %}
 
 {% block content %}
-<nav style="margin-bottom: 20px;">
-    <a href="{% url 'production_list_by_category' production.category.slug %}" style="color: #666;">&larr; Back to {{ production.category.name }}</a>
+
+<!-- BREADCRUMB -->
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'productions:category_list' %}" class="text-decoration-none">Portfolio</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'productions:production_list_by_category' production.category.slug %}" class="text-decoration-none">
+                {{ production.category.name }}
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">{{ production.title }}</li>
+    </ol>
 </nav>
 
-<div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-    {% if production.cover_image %}
-        <img src="{{ production.cover_image.url }}" style="width: 100%; max-height: 500px; object-fit: cover;">
-    {% endif %}
+<!-- MAIN CONTENT -->
+<div class="row g-5">
 
-    <div style="padding: 40px;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
-            <h1>{{ production.title }}</h1>
-            <span style="background: #eee; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
-                {{ production.date_created|date:"F Y" }}
-            </span>
-        </div>
-
-        <p style="font-size: 1.2rem; color: #555; margin-bottom: 30px;">
-            <strong>Location:</strong> {{ production.location }}
-        </p>
-
-        <div style="line-height: 1.8; color: #333; font-size: 1.1rem;">
-            {{ production.description|linebreaks }}
-        </div>
-
-        {% if production.video_url %}
-            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;">
-                <h3>Watch Video</h3>
-                <a href="{{ production.video_url }}" target="_blank" style="color: #d9534f; text-decoration: none; font-weight: bold;">
-                    View on External Platform &rarr;
-                </a>
+    <!-- LEFT: IMAGE -->
+    <div class="col-lg-7">
+        {% if production.cover_image %}
+            <img src="{{ production.cover_image.url }}"
+                 class="img-fluid rounded-4 shadow"
+                 alt="{{ production.title }}">
+        {% else %}
+            <div class="bg-secondary rounded-4 d-flex align-items-center justify-content-center shadow"
+                 style="height: 400px;">
+                <span class="text-white opacity-50 fs-4">No Image Available</span>
             </div>
         {% endif %}
+    </div>
 
-        <div style="margin-top: 40px;">
-            <a href="{% url 'booking_request' %}" style="background: #007bff; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; display: inline-block; font-weight: bold;">
-                Book a Similar Session
-            </a>
+    <!-- RIGHT: INFO -->
+    <div class="col-lg-5">
+        <div class="ps-lg-4">
+
+            <!-- ADMIN ACTIONS (VISIBLE ONLY IF LOGGED IN) -->
+            {% if user.is_authenticated %}
+            <div class="mb-3 d-flex gap-2">
+                <a href="{% url 'productions:production_edit' production.slug %}"
+                   class="btn btn-sm btn-outline-primary px-3">
+                    Edit Project
+                </a>
+                <a href="{% url 'productions:production_delete' production.slug %}"
+                   class="btn btn-sm btn-outline-danger px-3">
+                    Delete Project
+                </a>
+            </div>
+            {% endif %}
+
+            <span class="badge bg-primary mb-2">{{ production.category.name }}</span>
+            <h1 class="display-5 fw-bold mb-3">{{ production.title }}</h1>
+
+            <div class="d-flex align-items-center text-muted mb-4 gap-3">
+                <span>📍 {{ production.location }}</span>
+                <span>📅 {{ production.created_at|date:"F Y" }}</span>
+            </div>
+
+            <div class="mb-5">
+                <h5 class="fw-bold">About this project</h5>
+                <p class="text-secondary lh-lg">
+                    {{ production.description|linebreaks }}
+                </p>
+            </div>
+
+            <div class="card bg-light border-0 rounded-4 p-4">
+                <h5 class="fw-bold mb-2">Interested in something similar?</h5>
+                <p class="small text-muted mb-4">
+                    We can help you capture your special moments with the same professional touch.
+                </p>
+                <a href="{% url 'bookings:booking_request' %}" class="btn btn-dark btn-lg w-100">
+                    Book a Session
+                </a>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- RELATED PROJECTS -->
+{% if related_productions %}
+<section class="mt-5 pt-5 border-top">
+    <h3 class="fw-bold mb-4">More from {{ production.category.name }}</h3>
+    <div class="row g-4">
+        {% for related in related_productions %}
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                {% if related.cover_image %}
+                    <img src="{{ related.cover_image.url }}"
+                         class="card-img-top"
+                         style="height: 150px; object-fit: cover;"
+                         alt="{{ related.title }}">
+                {% else %}
+                    <div class="bg-secondary d-flex align-items-center justify-content-center"
+                         style="height: 150px;">
+                        <span class="text-white opacity-50 small">No Image</span>
+                    </div>
+                {% endif %}
+                <div class="card-body p-3">
+                    <h6 class="fw-bold mb-1">{{ related.title }}</h6>
+                    <p class="text-muted small mb-0">📍 {{ related.location }}</p>
+                    <a href="{% url 'productions:production_detail' related.slug %}"
+                       class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
 {% endblock %}

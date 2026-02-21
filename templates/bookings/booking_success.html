@@ -1,5 +1,22 @@
-<body>
-    <h1>Thank you!</h1>
-    <p>Your request has been submitted successfully. We will contact you soon.</p>
-    <a href="{% url 'bookings:booking_request' %}">Back to form</a>
-</body>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5 my-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-check2-circle text-success" viewBox="0 0 16 16">
+                  <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                  <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                </svg>
+            </div>
+            <h1 class="fw-bold mb-3">Request Received!</h1>
+            <p class="lead text-muted mb-5">Thank you for choosing LensMaster Pro. We have received your booking request and will get back to you shortly to confirm the details.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="{% url 'productions:category_list' %}" class="btn btn-dark btn-lg px-4 gap-3">Back to Portfolio</a>
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg px-4">Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -9,7 +9,6 @@ class EquipmentAdmin(ModelAdmin):
     list_filter = ('equipment_type', 'is_active', 'brand', 'purchase_date')
     search_fields = ('brand', 'model', 'internal_id', 'specifications')
     readonly_fields = ('internal_id',)
-    filter_horizontal = ('productions',)
 
     fieldsets = (
         ('Equipment Details', {
@@ -19,6 +18,6 @@ class EquipmentAdmin(ModelAdmin):
             'fields': ('specifications', 'purchase_date', 'notes')
         }),
         ('Status & Usage', {
-            'fields': ('is_active', 'productions'),
+            'fields': ('is_active', ),
         }),
     )

@@ -24,15 +24,15 @@ class ServicePackageAdmin(ModelAdmin):
 
 @admin.register(BookingRequest)
 class BookingRequestAdmin(ModelAdmin):
-    list_display = ('full_name', 'email', 'event_date', 'package', 'status', 'heard_from', 'created_at')
+    list_display = ('first_name', 'last_name', 'email', 'event_date', 'package', 'status', 'heard_from', 'created_at')
     list_filter = ('status', 'heard_from', 'event_date', 'created_at')
-    search_fields = ('full_name', 'email', 'phone', 'city', 'message')
+    search_fields = ('first_name', '','email', 'phone', 'city', 'message')
     readonly_fields = ('created_at', 'updated_at')
     date_hierarchy = 'event_date'
 
     fieldsets = (
         ('Client Information', {
-            'fields': ('full_name', 'email', 'phone', 'city')
+            'fields': ('first_name', 'last_name', 'email', 'phone', 'city')
         }),
         ('Event Details', {
             'fields': ('event_date', 'package', 'message')

@@ -13,11 +13,13 @@ class CategoryAdmin(ModelAdmin):
 
 @admin.register(Production)
 class ProductionAdmin(ModelAdmin):
-    list_display = ('title', 'category', 'date_created', 'is_featured')
+    list_display = ('title', 'category', 'date_created', 'is_featured', 'created_at')
     list_filter = ('category', 'is_featured', 'date_created')
     search_fields = ('title', 'short_description', 'description', 'location')
     prepopulated_fields = {'slug': ('title',)}
     readonly_fields = ('created_at', 'updated_at')
+    date_hierarchy = 'date_created'
+    filter_horizontal = ['equipment']
 
     fieldsets = (
         ('Basic Information', {

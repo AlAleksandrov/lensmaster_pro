@@ -18,13 +18,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from common.views import HomeView
 
 urlpatterns = [
+    path('', HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('bookings/', include(('bookings.urls', 'bookings'), namespace='bookings')),
-    path('portfolio/', include('productions.urls')),
-    path('inventory/', include('inventory.urls')),
-    path('productions/', include('productions.urls')),
+    path('portfolio/', include(('productions.urls', 'productions'), namespace='productions')),
+    path('inventory/', include(('inventory.urls', "inventory"), namespace="inventory")),
+
 ]
 
 if settings.DEBUG:

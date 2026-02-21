@@ -1,28 +1,116 @@
 {% extends 'base.html' %}
 
-{% block title %}Request a Booking - LensMaster Pro{% endblock %}
+{% block title %}Book a Session - LensMaster Pro{% endblock %}
 
 {% block content %}
-<div style="background: white; padding: 2rem; border-radius: 8px; shadow: 0 2px 5px rgba(0,0,0,0.1);">
-    <h1>Request a Booking</h1>
-    <p>Fill out the form below and we will get back to you as soon as possible.</p>
-    
-    <form method="post" novalidate>
-        {% csrf_token %}
-        
-        {% for field in form %}
-            <div style="margin-bottom: 1rem;">
-                <label style="display: block; font-weight: bold;">{{ field.label }}</label>
-                {{ field }}
-                {% if field.errors %}
-                    <div class="errorlist">{{ field.errors }}</div>
-                {% endif %}
+<div class="row justify-content-center py-5">
+    <div class="col-md-10 col-lg-8">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+            <div class="row g-0">
+                <!-- LEFT SIDE: DECORATIVE/INFO -->
+                <div class="col-md-4 bg-dark text-white p-4 p-md-5 d-flex flex-column justify-content-center">
+                    <h2 class="fw-bold mb-4">Let's Create Magic</h2>
+                    <p class="text-white-50 mb-4">Fill out the form to request a professional photo or video session. We'll review your details and get back to you within 24 hours.</p>
+                    <ul class="list-unstyled small">
+                        <li class="mb-2">✅ Professional Equipment</li>
+                        <li class="mb-2">✅ Custom Editing</li>
+                        <li class="mb-2">✅ Fast Delivery</li>
+                    </ul>
+                </div>
+
+                <!-- RIGHT SIDE: THE FORM -->
+                <div class="col-md-8 bg-white p-4 p-md-5">
+                    <h3 class="fw-bold mb-4 text-dark">Booking Request</h3>
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        <!-- PERSONAL INFO -->
+                        <div class="row g-3 mb-4">
+                            <!-- FIRST NAME -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-uppercase">First Name</label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}
+                                    <div class="text-danger small mt-1">{{ form.first_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <!-- LAST NAME -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-uppercase">Last Name</label>
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}
+                                    <div class="text-danger small mt-1">{{ form.last_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <!-- EMAIL -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-uppercase">Email Address</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <!-- PHONE -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-uppercase">Phone Number</label>
+                                {{ form.phone }}
+                                {% if form.phone.errors %}
+                                    <div class="text-danger small mt-1">{{ form.phone.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- EVENT DETAILS -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-uppercase">City</label>
+                                {{ form.city }}
+                                {% if form.city.errors %}
+                                    <div class="text-danger small mt-1">{{ form.city.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-uppercase">Preferred Date</label>
+                                {{ form.event_date }}
+                                {% if form.event_date.errors %}
+                                    <div class="text-danger small mt-1">{{ form.event_date.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-uppercase">Service Package</label>
+                                {{ form.package }}
+                                {% if form.package.errors %}
+                                    <div class="text-danger small mt-1">{{ form.package.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-uppercase">How did you hear about us?</label>
+                                {{ form.heard_from }}
+                                {% if form.heard_from.errors %}
+                                    <div class="text-danger small mt-1">{{ form.heard_from.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- MESSAGE -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold small text-uppercase">Your Vision / Message</label>
+                            {{ form.message }}
+                            {% if form.message.errors %}
+                                <div class="text-danger small mt-1">{{ form.message.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-dark btn-lg rounded-3 py-3 fw-bold">
+                                Send Booking Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        {% endfor %}
-        
-        <button type="submit" style="background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">
-            Send Request
-        </button>
-    </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

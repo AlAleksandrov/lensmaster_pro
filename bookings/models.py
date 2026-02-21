@@ -23,6 +23,14 @@ class ServicePackage(DescriptionMixin, ActiveStatusMixin, models.Model):
         help_text='Approximate number of edited photos included.',
     )
 
+    category = models.ForeignKey(
+        'productions.Category',
+        on_delete=models.CASCADE,
+        related_name='packages',
+        blank=True,
+        null=True,
+    )
+
     class Meta:
         ordering = ['price']
 
@@ -44,8 +52,12 @@ class BookingRequest(TimestampedMixin, models.Model):
         FRIEND = 'friend', 'Friend referral'
         OTHER = 'other', 'Other'
 
-    full_name = models.CharField(
-        max_length=100,
+    first_name = models.CharField(
+        max_length=50,
+    )
+
+    last_name = models.CharField(
+        max_length=50,
     )
 
     email = models.EmailField()
@@ -94,6 +106,10 @@ class BookingRequest(TimestampedMixin, models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
+    @property
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
 
     def __str__(self):
         return f'{self.full_name} - {self.event_date} ({self.get_status_display()})'

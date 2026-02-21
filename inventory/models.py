@@ -47,11 +47,6 @@ class Equipment(ActiveStatusMixin, models.Model):
         blank=True,
     )
 
-    productions = models.ManyToManyField(
-        'productions.Production',
-        related_name='equipment',
-        blank=True,
-    )
 
     class Meta:
         ordering = ['brand', 'model', 'internal_id']

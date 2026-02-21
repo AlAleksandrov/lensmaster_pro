@@ -3,27 +3,53 @@
 {% block title %}Our Gear - LensMaster Pro{% endblock %}
 
 {% block content %}
-<h1>Professional Equipment</h1>
-<p>We use only high-end gear to ensure the best quality for your productions.</p>
+
+<!-- PAGE HEADER -->
+<div class="mb-5">
+    <h1 class="fw-bold">Professional Equipment</h1>
+    <p class="text-muted lead">We use only high-end gear to ensure the best quality for your productions.</p>
+    <hr>
+</div>
 
 {% for group in grouped_equipment %}
-    <h2 style="margin-top: 40px; border-bottom: 2px solid #555; padding-bottom: 10px;">
-        {{ group.type }}s
-    </h2>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+<!-- CATEGORY SECTION -->
+<section class="mb-5">
+    <div class="d-flex align-items-center mb-4">
+        <span class="badge bg-dark fs-6 me-3">{{ group.type }}s</span>
+        <span class="text-muted small">{{ group.items|length }} item{{ group.items|length|pluralize }}</span>
+    </div>
+
+    <div class="row g-4">
         {% for item in group.items %}
-        <div style="background: white; padding: 20px; border-radius: 8px; border-left: 5px solid #333; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-            <h3 style="margin: 0 0 10px 0;">{{ item.brand }} {{ item.model }}</h3>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <span class="badge bg-secondary mb-2">{{ item.get_equipment_type_display }}</span>
+                    <h5 class="card-title fw-bold mb-1">{{ item.brand }}</h5>
+                    <h6 class="card-subtitle text-muted mb-3">{{ item.model }}</h6>
 
-            {% if item.specifications %}
-                <p style="font-size: 0.9rem; color: #666;">{{ item.specifications }}</p>
-            {% endif %}
+                    {% if item.specifications %}
+                        <p class="card-text small text-muted">{{ item.specifications }}</p>
+                    {% endif %}
 
-            <p style="font-size: 0.7rem; color: #aaa; margin-top: 10px;">ID: {{ item.internal_id }}</p>
+                    {% if item.notes %}
+                        <p class="card-text small fst-italic text-secondary">{{ item.notes }}</p>
+                    {% endif %}
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <small class="text-muted">ID: {{ item.internal_id }}</small>
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>
+</section>
+
+{% if not forloop.last %}
+    <hr class="my-4">
+{% endif %}
+
 {% endfor %}
 
 {% endblock %}

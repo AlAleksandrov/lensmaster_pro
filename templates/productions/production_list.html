@@ -1,28 +1,83 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ category.name }} Projects - LensMaster Pro{% endblock %}
+{% block title %}{{ category.name }} - LensMaster Pro{% endblock %}
 
 {% block content %}
-<nav style="background: none; padding: 0; margin-bottom: 20px;">
-    <a href="{% url 'category_list' %}" style="color: #666;">&larr; Back to Categories</a>
+
+<!-- BREADCRUMB -->
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'productions:category_list' %}" class="text-decoration-none">Portfolio</a>
+        </li>
+        <li class="breadcrumb-item active">{{ category.name }}</li>
+    </ol>
 </nav>
 
-<h1>{{ category.name }}</h1>
-<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
-    {% for production in productions %}
-    <div style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-        {% if production.cover_image %}
-            <img src="{{ production.cover_image.url }}" style="width: 100%; height: 200px; object-fit: cover;">
+<!-- PAGE HEADER -->
+<div class="mb-5">
+    <div class="d-flex align-items-center gap-3 mb-2">
+        {% if category.cover_image %}
+            <img src="{{ category.cover_image.url }}"
+                 class="rounded-circle"
+                 style="width: 56px; height: 56px; object-fit: cover;">
         {% endif %}
-        <div style="padding: 15px;">
-            <h3>{{ production.title }}</h3>
-            <p><strong>Location:</strong> {{ production.location }}</p>
-            <p>{{ production.short_description }}</p>
-            <a href="{% url 'production_detail' production.slug %}" style="display: inline-block; margin-top: 10px; background: #333; color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none;">View Details</a>
+        <h1 class="fw-bold mb-0">{{ category.name }}</h1>
+    </div>
+    {% if category.description %}
+        <p class="text-muted lead">{{ category.description }}</p>
+    {% endif %}
+    <hr>
+</div>
+
+<!-- PRODUCTIONS GRID -->
+<div class="row g-4">
+    {% for production in productions %}
+    <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+            {% if production.cover_image %}
+                <img src="{{ production.cover_image.url }}"
+                     class="card-img-top"
+                     style="height: 180px; object-fit: cover;">
+            {% else %}
+                <div class="bg-secondary d-flex align-items-center justify-content-center"
+                     style="height: 180px;">
+                    <span class="text-white opacity-50">No Image</span>
+                </div>
+            {% endif %}
+            <div class="card-body">
+                <h6 class="card-title fw-bold mb-1">{{ production.title }}</h6>
+                <p class="text-muted small mb-2">📍 {{ production.location }}</p>
+                {% if production.short_description %}
+                    <p class="card-text small text-muted">
+                        {{ production.short_description|truncatewords:12 }}
+                    </p>
+                {% endif %}
+            </div>
+            <div class="card-footer bg-transparent border-0">
+                {% if production.slug %}
+                    <a href="{% url 'productions:production_detail' production.slug %}"
+                       class="btn btn-sm btn-outline-dark w-100">
+                        View Project →
+                    </a>
+                {% else %}
+                    <button class="btn btn-sm btn-outline-secondary w-100" disabled>
+                        No details available
+                    </button>
+                {% endif %}
+            </div>
         </div>
     </div>
+
     {% empty %}
-        <p>No projects found in this category yet.</p>
+    <div class="col-12 text-center py-5 text-muted">
+        <h4>No projects in this category yet.</h4>
+        <p>Check back soon or explore other categories.</p>
+        <a href="{% url 'productions:category_list' %}" class="btn btn-outline-dark mt-2">
+            ← Back to Portfolio
+        </a>
+    </div>
     {% endfor %}
 </div>
+
 {% endblock %}

@@ -1,13 +1,14 @@
 from django import forms
 from django.utils import timezone
-from bookings.models import BookingRequest
+from bookings.models import BookingRequest, ServicePackage
 
 
 class BookingRequestForm(forms.ModelForm):
     class Meta:
         model = BookingRequest
         fields = [
-            'full_name',
+            'first_name',
+            'last_name',
             'email',
             'phone',
             'city',
@@ -29,9 +30,14 @@ class BookingRequestForm(forms.ModelForm):
                     'placeholder': 'Please tell us more about your event (at least 10 characters)...'
                 }
             ),
-            'full_name': forms.TextInput(
+            'first_name': forms.TextInput(
                 attrs={
-                    'placeholder': 'Your two names'
+                    'placeholder': 'Your first name'
+                }
+            ),
+            'last_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Your last name'
                 }
             ),
             'email': forms.EmailInput(
@@ -84,8 +90,59 @@ class BookingRequestForm(forms.ModelForm):
             raise forms.ValidationError('City cannot be empty.')
         return city
 
-    # def clean_package(self):
-    #     package = self.cleaned_data.get('package')
-    #     if not package:
-    #         raise forms.ValidationError('Please select a package.')
-    #     return package
+    def clean_package(self):
+        package = self.cleaned_data.get('package')
+        if not package:
+            raise forms.ValidationError('Please select a package.')
+        return package
+
+
+class ServicePackageForm(forms.ModelForm):
+    class Meta:
+        model = ServicePackage
+        fields = ['name', 'category', 'price', 'duration_hours', 'max_photos_included', 'description', 'is_active']
+
+        widgets = {
+            'name': forms.TextInput(
+                attrs={
+                    'class': 'form-control bg-dark text-white border-secondary',
+                    'placeholder': 'Package name'
+                }
+            ),
+            'category': forms.Select(
+                attrs={
+                    'class': 'form-select bg-dark text-white border-secondary',
+                    'placeholder': 'Select category'
+                }
+            ),
+            'price': forms.NumberInput(
+                attrs={
+                    'class': 'form-control bg-dark text-white border-secondary',
+                    'placeholder': 'Price'
+                }
+            ),
+            'duration_hours': forms.NumberInput(
+                attrs={
+                    'class': 'form-control bg-dark text-white border-secondary',
+                    'placeholder': 'Duration in hours'
+                }
+            ),
+            'max_photos_included': forms.NumberInput(
+                attrs={
+                    'class': 'form-control bg-dark text-white border-secondary',
+                    'placeholder': 'Max photos included'
+                }
+            ),
+            'description': forms.Textarea(
+                attrs={
+                    'class': 'form-control bg-dark text-white border-secondary',
+                    'rows': 3,
+                    'placeholder': 'Package description'
+                }
+            ),
+            'is_active': forms.CheckboxInput(
+                attrs={
+                    'class': 'form-check-input'
+                }
+            ),
+        }

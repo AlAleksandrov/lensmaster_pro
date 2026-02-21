@@ -1,4 +1,7 @@
 from django.db import models
+from django.utils import timezone
+from django.utils.text import slugify
+
 from common.models import SlugMixin, DescriptionMixin, TimestampedMixin
 
 
@@ -34,7 +37,9 @@ class Production(SlugMixin, DescriptionMixin, TimestampedMixin, models.Model):
         related_name='productions',
     )
 
-    date_created = models.DateField()
+    date_created = models.DateField(
+        default=timezone.now
+    )
 
     location = models.CharField(
         max_length=150,
@@ -61,8 +66,19 @@ class Production(SlugMixin, DescriptionMixin, TimestampedMixin, models.Model):
         default=False,
     )
 
+    equipment = models.ManyToManyField(
+        'inventory.Equipment',
+        related_name='productions',
+        blank=True,
+    )
+
     class Meta:
         ordering = ['-date_created', '-created_at']
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title

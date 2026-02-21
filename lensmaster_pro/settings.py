@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+
+from django.conf.global_settings import CSRF_TRUSTED_ORIGINS
 from django.conf.urls.static import static
 from dotenv import load_dotenv
 
@@ -33,14 +35,27 @@ DEBUG = os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",") if os.getenv("ALLOWED_HOSTS") else []
 
+ALLOWED_HOSTS.extend([
+    "127.0.0.1",
+    "localhost",
+    "rosella-unshotted-adjustably.ngrok-free.dev",
+])
+
+CSRF_TRUSTED_ORIGINS = ([
+    "http://127.0.0.1",
+    "http://localhost",
+    "https://rosella-unshotted-adjustably.ngrok-free.dev",
+])
 
 # Application definition
 
 PROJECT_APPS = [
-    'common',
-    'productions',
-    'inventory',
+    'crispy_forms',
+    'crispy_bootstrap5',
     'bookings',
+    'common',
+    'inventory',
+    'productions',
 ]
 
 INSTALLED_APPS = [
@@ -83,6 +98,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'lensmaster_pro.wsgi.application'
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
@@ -151,7 +168,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Security settings (for production)
 if not DEBUG:
-    SECURE_SSL_REDIRECT = True
+    SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
