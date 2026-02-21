@@ -1,178 +1,159 @@
-# 📷 LensMaster Pro    
-    
-**LensMaster Pro** is a Django web application built for a photography and videography studio.    
-It presents a curated portfolio of productions, showcases service packages, handles booking    
-requests from clients, and manages the studio's equipment inventory.    
-    
----    
-    
-## ✨ Features    
-    
-- Multi-app Django project with clearly defined responsibilities per app    
-- Full CRUD for **Productions** and **Service Packages**    
-- Portfolio organised by categories with production detail pages    
-- Booking request form with full server-side validation    
-- Equipment inventory with auto-generated internal IDs    
-- Template inheritance with a shared base layout and a custom 404 page    
-- PostgreSQL database configured via environment variables    
-    
----    
-    
-## 🗂️ Project Structure    
-    
-```text  
-lensmaster_pro/  
-├── bookings/ # Service packages & booking requests  
-│ ├── forms.py  
-│ ├── models.py  
-│ ├── urls.py  
-│ └── views.py  
-├── common/ # Shared abstract mixins & utilities  
-│ └── models.py  
-├── inventory/ # Studio equipment inventory  
-│ ├── models.py  
-│ ├── urls.py  
-│ └── views.py  
-├── productions/ # Portfolio categories & productions  
-│ ├── forms.py  
-│ ├── models.py  
-│ ├── urls.py  
-│ └── views.py  
-├── lensmaster_pro/ # Project configuration  
-│ ├── settings.py  
-│ └── urls.py  
-├── static/  
-│ ├── css/  
-│ └── images/  
-└── templates/  
-├── base.html  
-├── 404.html  
-├── home.html  
-├── bookings/  
-│ ├── booking_form.html  
-│ ├── booking_success.html  
-│ ├── package_form.html  
-│ └── package_list.html  
-├── inventory/  
-│ └── equipment_list.html  
-└── productions/  
-├── category_list.html  
-├── production_confirm_delete.html  
-├── production_detail.html  
-├── production_form.html  
-└── production_list.html  
+# 📷 LensMaster Pro
 
-📄 Main Pages
-Page	Description
-Home	Featured categories and latest productions
-Portfolio / Categories	All categories with their productions
-Productions by Category	Filtered list of productions per category
-Production Detail	Full details + related productions
-Production Create / Edit / Delete	Full CRUD for productions
-Service Packages	List of available studio packages
-Package Create / Edit / Delete	Full CRUD for service packages
-Booking Request	Client-facing booking form with validation
-Booking Success	Confirmation page after booking
-Equipment Inventory	Equipment list grouped by type
-404	Custom not found page
-🗄️ Database Models & Relationships
+**LensMaster Pro** is a professional Django web application designed for photography and videography studios. It features a curated portfolio, service package management, client booking requests, and a studio equipment inventory system.
 
-    Category — portfolio category (slug, description, cover image)
-    Production — portfolio item linked to a Category (Many-to-One)
-    Production ↔ Equipment — equipment used in a production (Many-to-Many)
-    ServicePackage — studio service offering linked to a Category (Many-to-One)
-    BookingRequest — client booking linked to a ServicePackage (Many-to-One)
-    Equipment — studio gear with auto-generated inventory ID
+---
 
-⚙️ Installation & Setup
-1) Clone the repository
+## ✨ Key Features
 
-bash
-Copy
-git clone https://github.com/AlAleksandrov/lensmaster_pro    
-cd lensmaster_pro    
+- **Multi-app Architecture**: Clean separation of concerns (Bookings, Productions, Inventory, Common).
+- **Full CRUD Functionality**:
+  - **Productions**: Create, View, Update, and Delete portfolio items.
+  - **Service Packages**: Full management of studio offerings (Create, View, Update, Delete).
+- **Dynamic Portfolio**: Organized by categories with detailed production pages and related items.
+- **Booking System**: Client-facing booking form with robust server-side validation.
+- **Inventory Management**: Equipment tracking with auto-generated internal inventory IDs.
+- **Custom 404 Page**: User-friendly error handling for missing resources.
+- **PostgreSQL Integration**: Database configuration via environment variables.
 
-2) Create and activate a virtual environment
+---
 
-bash
-Copy
-python -m venv .venv    
-    
-# Windows:    
-.venv\Scripts\activate    
-    
-# macOS/Linux:    
-source .venv/bin/activate    
+## 🗂️ Project Structure
 
-3) Install dependencies
+```text
+lensmaster_pro/
+|-- bookings/                  # Service packages & booking requests
+|   |-- forms.py
+|   |-- models.py
+|   |-- urls.py
+|   `-- views.py
+|-- common/                    # Shared abstract mixins & utilities
+|   `-- models.py
+|-- inventory/                 # Studio equipment inventory
+|   |-- models.py
+|   |-- urls.py
+|   `-- views.py
+|-- productions/               # Portfolio categories & productions
+|   |-- forms.py
+|   |-- models.py
+|   |-- urls.py
+|   `-- views.py
+|-- lensmaster_pro/            # Project configuration
+|   |-- settings.py
+|   `-- urls.py
+|-- static/
+|   |-- css/
+|   `-- images/
+`-- templates/
+    |-- base.html
+    |-- 404.html
+    |-- home.html
+    |-- bookings/
+    |   |-- booking_form.html
+    |   |-- booking_success.html
+    |   |-- package_form.html
+    |   `-- package_list.html
+    |-- inventory/
+    |   `-- equipment_list.html
+    `-- productions/
+        |-- category_list.html
+        |-- production_confirm_delete.html
+        |-- production_detail.html
+        |-- production_form.html
+        `-- production_list.html
+```
 
-bash
-Copy
-pip install -r requirements.txt    
+---
 
-4) Configure environment variables
+## 📄 Main Pages & CRUD Operations
 
-Create a .env file in the project root (next to manage.py):
+| Feature | Description | CRUD Status |
+|---|---|---|
+| **Home** | Featured categories and latest studio work. | View |
+| **Portfolio** | Browse all categories and their respective productions. | View |
+| **Productions** | Detailed view of specific projects with related items. | **Full CRUD** |
+| **Service Packages** | List of available photography/videography packages. | **Full CRUD** |
+| **Booking Request** | Client form to request a session with validation. | Create |
+| **Inventory** | Internal list of studio gear grouped by type. | View |
+| **404 Error** | Custom-designed "Page Not Found" template. | - |
 
-env
-Copy
-SECRET_KEY=your-secret-key-here    
-DEBUG=True    
-ALLOWED_HOSTS=127.0.0.1,localhost    
-    
-DB_ENGINE=django.db.backends.postgresql    
-DB_NAME=lensmaster_pro    
-DB_USER=postgres    
-DB_PASSWORD=your_password    
-DB_HOST=127.0.0.1    
-DB_PORT=5432    
-    
-LANGUAGE_CODE=en-us    
-TIME_ZONE=UTC    
-USE_I18N=True    
-USE_TZ=True    
+---
 
-5) Set up the PostgreSQL database
+## ⚙️ Installation & Setup
 
-sql
-Copy
-CREATE DATABASE lensmaster_pro;    
+### 1) Clone the repository
 
-6) Apply migrations
+```bash
+git clone https://github.com/AlAleksandrov/lensmaster_pro
+cd lensmaster_pro
+```
 
-bash
-Copy
-python manage.py migrate    
+### 2) Create and activate a virtual environment
 
-7) Run the development server
+```bash
+python -m venv .venv
 
-bash
-Copy
-python manage.py runserver    
+# Windows:
+.venv\Scriptsctivate
 
-Open in your browser → http://127.0.0.1:8000/
-🔧 Admin Panel (Optional)
+# macOS/Linux:
+source .venv/bin/activate
+```
 
-To manage content through the Django admin interface:
+### 3) Install dependencies
 
-bash
-Copy
-python manage.py createsuperuser    
+```bash
+pip install -r requirements.txt
+```
 
-Then open → http://127.0.0.1:8000/admin/
-📁 Static & Media
+### 4) Configure environment variables
 
-    Static files are located in static/
-    Uploaded media (cover images, etc.) is stored in media/ (auto-created on first upload)
+Create a `.env` file in the project root (next to `manage.py`):
 
-🛠️ Tech Stack
-Technology	Purpose
-Django	Web framework
-PostgreSQL	Database
-django-crispy-forms	Form rendering
-crispy-bootstrap5	Bootstrap 5 form styling
-Pillow	Image handling
-python-dotenv	Environment variable management
-📝 License
+```env
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+ALLOWED_HOSTS=127.0.0.1,localhost
 
-Educational project — Django Basics Exam.
+DB_ENGINE=django.db.backends.postgresql
+DB_NAME=lensmaster_pro
+DB_USER=postgres
+DB_PASSWORD=your_password
+DB_HOST=127.0.0.1
+DB_PORT=5432
+
+LANGUAGE_CODE=en-us
+TIME_ZONE=UTC
+USE_I18N=True
+USE_TZ=True
+```
+
+### 5) Apply migrations
+
+```bash
+python manage.py migrate
+```
+
+### 6) Run the development server
+
+```bash
+python manage.py runserver
+```
+
+Open in your browser → **http://127.0.0.1:8000/**
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend**: Django (Python)
+- **Database**: PostgreSQL
+- **Forms**: django-crispy-forms with Bootstrap 5
+- **Environment**: python-dotenv
+- **Images**: Pillow
+
+---
+
+## 📝 License
+
+Educational project for the Django Basics Exam.
