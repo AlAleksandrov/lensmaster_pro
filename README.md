@@ -170,7 +170,7 @@ Last verified on: 2026-02-21
 
 ![Home page](static/images/screenshot-home.png)
 
-![Portfolios page](static/images/screenshot-portfolio.png)
+![Portfolio page](static/images/screenshot-portfolio.png)
 
 ![Production details](static/images/screenshot-production.png)
 
