@@ -154,6 +154,18 @@ Open in your browser → **http://127.0.0.1:8000/**
 
 ---
 
+## 🌐 Live Demo (optional)
+
+A live demo may be available here (ngrok, temporary):
+
+- https://rosella-unshotted-adjustably.ngrok-free.dev/
+
+If the link is inactive, please run the project locally following the steps above.
+
+Last verified on: 2026-02-21
+
+---
+
 ## 🧪 How to add sample data (via Django admin)
 
 Authentication for the public site is intentionally excluded (exam requirement). For demo/testing, you can use the standard Django admin panel to add sample content.
