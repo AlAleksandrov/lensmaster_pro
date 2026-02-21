@@ -169,7 +169,9 @@ Last verified on: 2026-02-21
 ## 🖼️ Screenshots
 
 ![Home page](static/images/screenshot-home.png)
-![Packages page](static/images/screenshot-portfolio.png)
+
+![Portfolios page](static/images/screenshot-portfolio.png)
+
 ![Production details](static/images/screenshot-production.png)
 
 ---
