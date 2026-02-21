@@ -7,25 +7,25 @@
 {% endblock %}
 
 {% block content %}
-<div class="row justify-content-center py-5">
+<div class="row justify-content-center py-4 py-lg-5">
     <div class="col-md-10 col-lg-9">
-        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        <div class="card border-0 rounded-4 overflow-hidden">
             <div class="row g-0">
 
                 <!-- LEFT SIDE: INFO PANEL -->
-                <div class="col-md-4 bg-black text-white p-4 p-md-5 d-flex flex-column justify-content-center border-end border-secondary">
+                <div class="col-md-4 p-4 p-md-5 d-flex flex-column justify-content-center border-end lm-bg-panel">
                     {% if object %}
-                        <h2 class="fw-bold mb-3 text-white">Edit Project</h2>
-                        <p class="text-white-50 mb-4 small">
+                        <h2 class="h4 fw-bold mb-2">Edit Project</h2>
+                        <p class="text-muted mb-4 small">
                             Update the details of this production and the equipment used.
                         </p>
                     {% else %}
-                        <h2 class="fw-bold mb-3 text-white">Add New Project</h2>
-                        <p class="text-white-50 mb-4 small">
+                        <h2 class="h4 fw-bold mb-2">Add New Project</h2>
+                        <p class="text-muted mb-4 small">
                             Create a new portfolio entry and link the gear used for the shoot.
                         </p>
                     {% endif %}
-                    <ul class="list-unstyled small text-white-50">
+                    <ul class="list-unstyled small text-muted mb-0">
                         <li class="mb-2">✅ Title & Category</li>
                         <li class="mb-2">✅ Location & Event Date</li>
                         <li class="mb-2">✅ Gear Used (Inventory)</li>
@@ -34,12 +34,12 @@
                 </div>
 
                 <!-- RIGHT SIDE: FORM -->
-                <div class="col-md-8 bg-dark text-white p-4 p-md-5">
+                <div class="col-md-8 bg-white p-4 p-md-5">
 
                     <!-- ERROR MESSAGES -->
                     {% if form.errors %}
-                    <div class="alert alert-danger rounded-3 small mb-4">
-                        <p class="fw-bold mb-1">Please correct the following:</p>
+                    <div class="alert alert-danger rounded-4 small mb-4">
+                        <p class="fw-bold mb-2">Please correct the following:</p>
                         <ul class="mb-0">
                             {% for field in form %}
                                 {% for error in field.errors %}
@@ -56,11 +56,11 @@
                         <!-- ROW 1: TITLE & CATEGORY -->
                         <div class="row g-3 mb-4">
                             <div class="col-md-8">
-                                <label class="form-label fw-semibold small text-uppercase text-secondary">Project Title</label>
+                                <label class="form-label fw-semibold small text-uppercase text-muted">Project Title</label>
                                 {{ form.title }}
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold small text-uppercase text-secondary">Category</label>
+                                <label class="form-label fw-semibold small text-uppercase text-muted">Category</label>
                                 {{ form.category }}
                             </div>
                         </div>
@@ -68,11 +68,11 @@
                         <!-- ROW 2: LOCATION & DATE -->
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase text-secondary">Location</label>
+                                <label class="form-label fw-semibold small text-uppercase text-muted">Location</label>
                                 {{ form.location }}
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase text-secondary">Event Date</label>
+                                <label class="form-label fw-semibold small text-uppercase text-muted">Event Date</label>
                                 {{ form.date_created }}
                             </div>
                         </div>
@@ -80,13 +80,13 @@
                         <!-- ROW 3: COVER IMAGE & FEATURED -->
                         <div class="row g-3 mb-4">
                             <div class="col-md-8">
-                                <label class="form-label fw-semibold small text-uppercase text-secondary">Cover Image</label>
+                                <label class="form-label fw-semibold small text-uppercase text-muted">Cover Image</label>
                                 {{ form.cover_image }}
                             </div>
                             <div class="col-md-4 d-flex align-items-center pt-4">
                                 <div class="form-check">
                                     {{ form.is_featured }}
-                                    <label class="form-check-label ms-2 small fw-semibold text-uppercase text-secondary">
+                                    <label class="form-check-label ms-2 small fw-semibold text-uppercase text-muted">
                                         Featured
                                     </label>
                                 </div>
@@ -95,42 +95,44 @@
 
                         <!-- SHORT DESCRIPTION -->
                         <div class="mb-4">
-                            <label class="form-label fw-semibold small text-uppercase text-secondary">Short Description</label>
+                            <label class="form-label fw-semibold small text-uppercase text-muted">Short Description</label>
                             {{ form.short_description }}
                         </div>
 
                         <!-- FULL DESCRIPTION -->
                         <div class="mb-4">
-                            <label class="form-label fw-semibold small text-uppercase text-secondary">Full Description</label>
+                            <label class="form-label fw-semibold small text-uppercase text-muted">Full Description</label>
                             {{ form.description }}
                         </div>
 
                         <!-- EQUIPMENT (MANY-TO-MANY) -->
-                        <div class="mb-4 p-3 border border-secondary rounded" style="background: rgba(0,0,0,0.3);">
-                            <label class="form-label fw-semibold small text-uppercase text-info mb-3">
+                        <div class="mb-4 p-4 border rounded-4 bg-light">
+                            <label class="form-label fw-semibold small text-uppercase text-muted mb-3">
                                 Equipment Used (Inventory)
                             </label>
-                            <div class="equipment-checkbox-list">
+
+                            <ul class="equipment-checkbox-list">
                                 {% for checkbox in form.equipment %}
-                                <div style="background: #1a1a1a; border: 1px solid #444; border-radius: 6px; padding: 8px 12px;">
+                                <li class="border bg-white">
                                     {{ checkbox.tag }}
-                                    <label for="{{ checkbox.id_for_label }}" style="color: #ccc; font-size: 0.85rem; cursor: pointer; margin-left: 8px;">
+                                    <label for="{{ checkbox.id_for_label }}">
                                         {{ checkbox.choice_label }}
                                     </label>
-                                </div>
+                                </li>
                                 {% endfor %}
-                            </div>
-                            <div class="form-text text-secondary mt-2" style="font-size: 0.75rem;">
+                            </ul>
+
+                            <div class="form-text mt-2 lm-text-xs">
                                 Select all equipment used for this production.
                             </div>
                         </div>
 
                         <!-- BUTTONS -->
-                        <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top border-secondary">
-                            <a href="{% url 'productions:category_list' %}" class="text-secondary text-decoration-none small">
+                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mt-4 pt-3 border-top">
+                            <a href="{% url 'productions:category_list' %}" class="text-muted text-decoration-none small">
                                 ← Cancel
                             </a>
-                            <button type="submit" class="btn btn-outline-light btn-lg px-5 rounded-pill fw-bold">
+                            <button type="submit" class="btn btn-success btn-lg px-5 rounded-pill fw-bold">
                                 {% if object %}Update Project{% else %}Create Project{% endif %}
                             </button>
                         </div>

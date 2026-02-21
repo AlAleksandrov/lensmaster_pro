@@ -6,7 +6,7 @@
 
 <!-- BREADCRUMB -->
 <nav aria-label="breadcrumb" class="mb-4">
-    <ol class="breadcrumb">
+    <ol class="breadcrumb mb-0">
         <li class="breadcrumb-item">
             <a href="{% url 'productions:category_list' %}" class="text-decoration-none">Portfolio</a>
         </li>
@@ -18,14 +18,15 @@
 <div class="mb-5">
     <div class="d-flex align-items-center gap-3 mb-2">
         {% if category.cover_image %}
-            <img src="{{ category.cover_image.url }}"
-                 class="rounded-circle"
-                 style="width: 56px; height: 56px; object-fit: cover;">
+            <img src="{{ category.cover_image.url }}" class="rounded-circle lm-img-circle-56">
         {% endif %}
-        <h1 class="fw-bold mb-0">{{ category.name }}</h1>
+        <div class="min-w-0">
+            <h1 class="fw-bold mb-0">{{ category.name }}</h1>
+            <div class="text-muted small">{{ productions|length }} project{{ productions|length|pluralize }}</div>
+        </div>
     </div>
     {% if category.description %}
-        <p class="text-muted lead">{{ category.description }}</p>
+        <p class="text-muted lead mb-3">{{ category.description }}</p>
     {% endif %}
     <hr>
 </div>
@@ -34,34 +35,31 @@
 <div class="row g-4">
     {% for production in productions %}
     <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="card h-100 shadow-sm border-0">
+        <div class="card h-100 border-0 rounded-4 overflow-hidden lm-card-hover">
             {% if production.cover_image %}
-                <img src="{{ production.cover_image.url }}"
-                     class="card-img-top"
-                     style="height: 180px; object-fit: cover;">
+                <img src="{{ production.cover_image.url }}" class="card-img-top lm-img-h-180 lm-img-cover">
             {% else %}
-                <div class="bg-secondary d-flex align-items-center justify-content-center"
-                     style="height: 180px;">
+                <div class="lm-media-placeholder lm-img-h-180">
                     <span class="text-white opacity-50">No Image</span>
                 </div>
             {% endif %}
-            <div class="card-body">
+            <div class="card-body p-4">
                 <h6 class="card-title fw-bold mb-1">{{ production.title }}</h6>
                 <p class="text-muted small mb-2">📍 {{ production.location }}</p>
                 {% if production.short_description %}
-                    <p class="card-text small text-muted">
+                    <p class="card-text small text-muted mb-0">
                         {{ production.short_description|truncatewords:12 }}
                     </p>
                 {% endif %}
             </div>
-            <div class="card-footer bg-transparent border-0">
+            <div class="card-footer bg-white border-0 p-4 pt-0">
                 {% if production.slug %}
                     <a href="{% url 'productions:production_detail' production.slug %}"
-                       class="btn btn-sm btn-outline-dark w-100">
+                       class="btn btn-sm btn-outline-dark w-100 rounded-pill">
                         View Project →
                     </a>
                 {% else %}
-                    <button class="btn btn-sm btn-outline-secondary w-100" disabled>
+                    <button class="btn btn-sm btn-outline-secondary w-100 rounded-pill" disabled>
                         No details available
                     </button>
                 {% endif %}
@@ -71,9 +69,9 @@
 
     {% empty %}
     <div class="col-12 text-center py-5 text-muted">
-        <h4>No projects in this category yet.</h4>
-        <p>Check back soon or explore other categories.</p>
-        <a href="{% url 'productions:category_list' %}" class="btn btn-outline-dark mt-2">
+        <h4 class="fw-bold mb-2">No projects in this category yet.</h4>
+        <p class="mb-4">Check back soon or explore other categories.</p>
+        <a href="{% url 'productions:category_list' %}" class="btn btn-outline-dark rounded-pill px-4">
             ← Back to Portfolio
         </a>
     </div>

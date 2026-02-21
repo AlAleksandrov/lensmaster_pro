@@ -7,8 +7,12 @@ app_name = 'bookings'
 
 bookings_patterns = [
     path('', views.ServicePackageListView.as_view(), name='package_list'),
-    path('add/', views.ServicePackageCreateView.as_view(), name='package_create'),
-    path('<int:pk>/edit/', views.ServicePackageUpdateView.as_view(), name='package_edit'),
+    path('create/', views.ServicePackageCreateView.as_view(), name='package_create'),
+    path('<int:pk>/', include([
+        path('', views.ServicePackageDetailView.as_view(), name='package_detail'),
+        path('edit/', views.ServicePackageUpdateView.as_view(), name='package_edit'),
+        path('delete/', views.ServicePackageDeleteView.as_view(), name='package_delete'),
+    ])),
 ]
 
 urlpatterns = [

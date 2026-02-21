@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}LensMaster Pro{% endblock %}</title>
@@ -11,16 +12,8 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; color: #212529; }
-        .navbar { background-color: #1a1a1a; }
-        .navbar-brand, .nav-link { color: #ffffff !important; }
-        .nav-link:hover { color: #adb5bd !important; }
-        .nav-link.active { color: #adb5bd !important; border-bottom: 2px solid #adb5bd; }
-        footer { background-color: #1a1a1a; color: #ffffff; padding: 3rem 0; margin-top: 4rem; }
-        .card { border: none; transition: transform 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .card:hover { transform: translateY(-5px); }
-    </style>
+    <!-- Project CSS -->
+    <link rel="stylesheet" href="{% static 'css/site.css' %}">
 </head>
 <body>
 
@@ -34,7 +27,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' and request.resolver_match.app_name == '' %}active{% endif %}"
                            href="{% url 'home' %}">Home</a>
                     </li>
                     <li class="nav-item">
@@ -46,11 +39,11 @@
                            href="{% url 'inventory:equipment_list' %}">Our Gear</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'package_list' %}active{% endif %}"
+                        <a class="nav-link {% if request.resolver_match.app_name == 'bookings' %}active{% endif %}"
                            href="{% url 'bookings:package_list' %}">Packages</a>
                     </li>
                     <li class="nav-item ms-lg-3">
-                        <a class="btn btn-outline-light rounded-pill px-4"
+                        <a class="btn btn-success rounded-pill px-4 fw-semibold"
                            href="{% url 'bookings:booking_request' %}">Book Now</a>
                     </li>
                 </ul>

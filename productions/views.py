@@ -58,7 +58,7 @@ class ProductionDetailView(DetailView):
 
         return context
 
-class ProductionCreateView(LoginRequiredMixin, CreateView):
+class ProductionCreateView(CreateView):
     model = Production
     form_class = ProductionForm
     template_name = 'productions/production_form.html'
@@ -68,13 +68,13 @@ class ProductionCreateView(LoginRequiredMixin, CreateView):
         form.instance.slug = slugify(form.instance.title)
         return super().form_valid(form)
 
-class ProductionUpdateView(LoginRequiredMixin, UpdateView):
+class ProductionUpdateView(UpdateView):
     model = Production
     form_class = ProductionForm
     template_name = 'productions/production_form.html'
     success_url = reverse_lazy('productions:category_list')
 
-class ProductionDeleteView(LoginRequiredMixin, DeleteView):
+class ProductionDeleteView(DeleteView):
     model = Production
     template_name = 'productions/production_confirm_delete.html'
     success_url = reverse_lazy('productions:category_list')

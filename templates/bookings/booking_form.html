@@ -3,15 +3,19 @@
 {% block title %}Book a Session - LensMaster Pro{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center py-5">
+<div class="row justify-content-center py-4 py-lg-5">
     <div class="col-md-10 col-lg-8">
-        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        <div class="card border-0 rounded-4 overflow-hidden">
             <div class="row g-0">
-                <!-- LEFT SIDE: DECORATIVE/INFO -->
-                <div class="col-md-4 bg-dark text-white p-4 p-md-5 d-flex flex-column justify-content-center">
-                    <h2 class="fw-bold mb-4">Let's Create Magic</h2>
-                    <p class="text-white-50 mb-4">Fill out the form to request a professional photo or video session. We'll review your details and get back to you within 24 hours.</p>
-                    <ul class="list-unstyled small">
+
+                <!-- LEFT SIDE: INFO -->
+                <div class="col-md-4 p-4 p-md-5 d-flex flex-column justify-content-center border-end lm-bg-panel">
+                    <h2 class="h4 fw-bold mb-3">Let’s Create Magic</h2>
+                    <p class="text-muted mb-4 small">
+                        Fill out the form to request a professional photo or video session.
+                        We'll review your details and get back to you within 24 hours.
+                    </p>
+                    <ul class="list-unstyled small text-muted mb-0">
                         <li class="mb-2">✅ Professional Equipment</li>
                         <li class="mb-2">✅ Custom Editing</li>
                         <li class="mb-2">✅ Fast Delivery</li>
@@ -20,40 +24,44 @@
 
                 <!-- RIGHT SIDE: THE FORM -->
                 <div class="col-md-8 bg-white p-4 p-md-5">
-                    <h3 class="fw-bold mb-4 text-dark">Booking Request</h3>
+                    <div class="d-flex align-items-end justify-content-between gap-3 mb-4">
+                        <div>
+                            <h3 class="fw-bold mb-1">Booking Request</h3>
+                            <p class="text-muted small mb-0">Tell us a bit about your event and preferred package.</p>
+                        </div>
+                    </div>
 
                     <form method="post" novalidate>
                         {% csrf_token %}
 
                         <!-- PERSONAL INFO -->
                         <div class="row g-3 mb-4">
-                            <!-- FIRST NAME -->
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase">First Name</label>
+                                <label class="form-label fw-semibold small text-uppercase text-muted">First Name</label>
                                 {{ form.first_name }}
                                 {% if form.first_name.errors %}
                                     <div class="text-danger small mt-1">{{ form.first_name.errors.0 }}</div>
                                 {% endif %}
                             </div>
-                            <!-- LAST NAME -->
+
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase">Last Name</label>
+                                <label class="form-label fw-semibold small text-uppercase text-muted">Last Name</label>
                                 {{ form.last_name }}
                                 {% if form.last_name.errors %}
                                     <div class="text-danger small mt-1">{{ form.last_name.errors.0 }}</div>
                                 {% endif %}
                             </div>
-                            <!-- EMAIL -->
+
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase">Email Address</label>
+                                <label class="form-label fw-semibold small text-uppercase text-muted">Email Address</label>
                                 {{ form.email }}
                                 {% if form.email.errors %}
                                     <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
                                 {% endif %}
                             </div>
-                            <!-- PHONE -->
+
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase">Phone Number</label>
+                                <label class="form-label fw-semibold small text-uppercase text-muted">Phone Number</label>
                                 {{ form.phone }}
                                 {% if form.phone.errors %}
                                     <div class="text-danger small mt-1">{{ form.phone.errors.0 }}</div>
@@ -64,28 +72,31 @@
                         <!-- EVENT DETAILS -->
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase">City</label>
+                                <label class="form-label fw-semibold small text-uppercase text-muted">City</label>
                                 {{ form.city }}
                                 {% if form.city.errors %}
                                     <div class="text-danger small mt-1">{{ form.city.errors.0 }}</div>
                                 {% endif %}
                             </div>
+
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase">Preferred Date</label>
+                                <label class="form-label fw-semibold small text-uppercase text-muted">Preferred Date</label>
                                 {{ form.event_date }}
                                 {% if form.event_date.errors %}
                                     <div class="text-danger small mt-1">{{ form.event_date.errors.0 }}</div>
                                 {% endif %}
                             </div>
+
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase">Service Package</label>
+                                <label class="form-label fw-semibold small text-uppercase text-muted">Service Package</label>
                                 {{ form.package }}
                                 {% if form.package.errors %}
                                     <div class="text-danger small mt-1">{{ form.package.errors.0 }}</div>
                                 {% endif %}
                             </div>
+
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase">How did you hear about us?</label>
+                                <label class="form-label fw-semibold small text-uppercase text-muted">How did you hear about us?</label>
                                 {{ form.heard_from }}
                                 {% if form.heard_from.errors %}
                                     <div class="text-danger small mt-1">{{ form.heard_from.errors.0 }}</div>
@@ -95,7 +106,7 @@
 
                         <!-- MESSAGE -->
                         <div class="mb-4">
-                            <label class="form-label fw-semibold small text-uppercase">Your Vision / Message</label>
+                            <label class="form-label fw-semibold small text-uppercase text-muted">Your Vision / Message</label>
                             {{ form.message }}
                             {% if form.message.errors %}
                                 <div class="text-danger small mt-1">{{ form.message.errors.0 }}</div>
@@ -103,12 +114,19 @@
                         </div>
 
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-dark btn-lg rounded-3 py-3 fw-bold">
+                            <button type="submit" class="btn btn-success btn-lg rounded-pill py-3 fw-bold">
                                 Send Booking Request
                             </button>
                         </div>
+
+                        <div class="text-center mt-3">
+                            <a href="{% url 'bookings:package_list' %}" class="text-muted small text-decoration-none">
+                                ← Back to packages
+                            </a>
+                        </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>

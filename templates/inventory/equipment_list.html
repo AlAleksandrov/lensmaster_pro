@@ -16,28 +16,28 @@
 <!-- CATEGORY SECTION -->
 <section class="mb-5">
     <div class="d-flex align-items-center mb-4">
-        <span class="badge bg-dark fs-6 me-3">{{ group.type }}s</span>
+        <span class="badge text-bg-dark rounded-pill px-3 py-2 fs-6 me-3">{{ group.type }}s</span>
         <span class="text-muted small">{{ group.items|length }} item{{ group.items|length|pluralize }}</span>
     </div>
 
     <div class="row g-4">
         {% for item in group.items %}
         <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                    <span class="badge bg-secondary mb-2">{{ item.get_equipment_type_display }}</span>
+            <div class="card h-100 border-0 rounded-4 overflow-hidden lm-card-hover">
+                <div class="card-body p-4">
+                    <span class="badge text-bg-secondary rounded-pill px-3 py-2 mb-2">{{ item.get_equipment_type_display }}</span>
                     <h5 class="card-title fw-bold mb-1">{{ item.brand }}</h5>
                     <h6 class="card-subtitle text-muted mb-3">{{ item.model }}</h6>
 
                     {% if item.specifications %}
-                        <p class="card-text small text-muted">{{ item.specifications }}</p>
+                        <p class="card-text small text-muted mb-2">{{ item.specifications }}</p>
                     {% endif %}
 
                     {% if item.notes %}
-                        <p class="card-text small fst-italic text-secondary">{{ item.notes }}</p>
+                        <p class="card-text small fst-italic text-secondary mb-0">{{ item.notes }}</p>
                     {% endif %}
                 </div>
-                <div class="card-footer bg-transparent border-0">
+                <div class="card-footer bg-white border-0 px-4 pb-4 pt-0">
                     <small class="text-muted">ID: {{ item.internal_id }}</small>
                 </div>
             </div>

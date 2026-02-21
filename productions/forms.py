@@ -60,3 +60,9 @@ class ProductionForm(forms.ModelForm):
                 }
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['title'].disabled = True
+            self.fields['category'].disabled =True
