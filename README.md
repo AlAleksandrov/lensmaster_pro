@@ -68,7 +68,7 @@ lensmaster_pro/
 ## 🧭 Main URLs / Navigation Map
 
 - **Home**: `/`
-- **Portfolio**: `/portfolio/categories/` *(browse categories and productions)*
+- **Portfolio**: `/portfolio/` *(browse categories and productions)*
 - **Packages**: `/bookings/packages/`
 - **Booking request**: `/bookings/request/`
 - **Inventory**: `/inventory/`
@@ -163,6 +163,14 @@ A live demo may be available here (ngrok, temporary):
 If the link is inactive, please run the project locally following the steps above.
 
 Last verified on: 2026-02-21
+
+---
+
+## 🖼️ Screenshots
+
+![Home page](static/images/screenshot-home.png)
+![Packages page](static/images/screenshot-portfolio.png)
+![Production details](static/images/screenshot-production.png)
 
 ---
 
