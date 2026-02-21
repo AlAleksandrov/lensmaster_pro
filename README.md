@@ -65,6 +65,16 @@ lensmaster_pro/
 
 ---
 
+## 🧭 Main URLs / Navigation Map
+
+- **Home**: `/`
+- **Portfolio**: `/portfolio/` *(browse categories and productions)*
+- **Packages**: `/bookings/packages/`
+- **Booking request**: `/bookings/request/`
+- **Inventory**: `/inventory/`
+
+---
+
 ## 📄 Main Pages & CRUD Operations
 
 | Feature | Description | CRUD Status |
@@ -144,13 +154,50 @@ Open in your browser → **http://127.0.0.1:8000/**
 
 ---
 
-## 🛠️ Tech Stack
+## 🧪 How to add sample data (via Django admin)
+
+Authentication for the public site is intentionally excluded (exam requirement). For demo/testing, you can use the standard Django admin panel to add sample content.
+
+1) Create an admin user:
+
+```bash
+python manage.py createsuperuser
+```
+
+2) Open the admin panel:
+
+- **Admin**: `http://127.0.0.1:8000/admin/`
+
+3) Add sample data:
+
+- Create **Categories**
+- Create **Productions** (linked to a Category)
+- Create **Service Packages** (linked to a Category)
+- Create **Equipment**
+
+---
+
+## 🧩 Custom 404 Page
+
+To test the custom 404 page, open:
+
+- `/this-page-does-not-exist/`
+
+---
+
+## 🗃️ Tech Stack
 
 - **Backend**: Django (Python)
 - **Database**: PostgreSQL
 - **Forms**: django-crispy-forms with Bootstrap 5
 - **Environment**: python-dotenv
 - **Images**: Pillow
+
+---
+
+## 🧾 Git History
+
+The project includes commits on multiple separate days as required.
 
 ---
 
