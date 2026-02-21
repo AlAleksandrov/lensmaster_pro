@@ -5,16 +5,9 @@
 {% block content %}
 <div class="py-4 py-lg-5">
 
-    <!-- HEADER -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
-        <div>
-            <h1 class="fw-bold mb-1">Our Service Packages</h1>
-            <p class="text-muted mb-0">Choose the package that fits your event best.</p>
-        </div>
-        <a href="{% url 'bookings:package_create' %}" class="btn btn-success rounded-pill px-4">
-            + Add Package
-        </a>
-    </div>
+    {% load formatting %}
+
+    {% include 'partials/page_header.html' with title='Our Service Packages' subtitle='Choose the package that fits your event best.' cta_url=package_create_url cta_text='+ Add Package' %}
 
     <!-- PACKAGES GROUPED BY CATEGORY -->
     {% regroup packages by category as packages_by_category %}
@@ -49,7 +42,7 @@
                             </div>
 
                             <span class="badge text-bg-success rounded-pill px-3 py-2 flex-shrink-0">
-                                €{{ package.price }}
+                                {{ package.price|eur }}
                             </span>
                         </div>
 

@@ -27,6 +27,11 @@ class ServicePackageListView(ListView):
     def get_queryset(self):
         return super().get_queryset().filter(is_active=True).order_by('category__name', 'price')
 
+    def get_context_data(self, *, object_list = ..., **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['package_create_url'] = reverse_lazy('bookings:package_create')
+        return context
+
 
 class ServicePackageDetailView(DetailView):
     model = ServicePackage

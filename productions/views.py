@@ -26,6 +26,7 @@ class CategoryListView(ListView):
                 })
 
         context['grouped_portfolio'] = grouped_portfolio
+        context['production_create_url'] = reverse_lazy('productions:production_create')
         return context
 
 

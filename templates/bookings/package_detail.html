@@ -5,6 +5,8 @@
 {% block content %}
 <div class="py-4 py-lg-5">
 
+    {% load formatting %}
+
     <!-- BREADCRUMB -->
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb mb-0">
@@ -49,7 +51,7 @@
                         </div>
 
                         <div class="text-md-end">
-                            <div class="h2 fw-bold text-success mb-0">€{{ object.price }}</div>
+                            <div class="h2 fw-bold text-success mb-0">{{ object.price|eur }}</div>
                             <div class="text-muted small">per session</div>
                         </div>
                     </div>
@@ -81,48 +83,7 @@
 
                 <!-- BODY -->
                 <div class="card-body p-4 p-md-5 pt-0">
-
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h2 class="h5 fw-bold mb-0">What’s included</h2>
-                        <span class="text-muted small">Simple, clear, and upfront.</span>
-                    </div>
-
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="border rounded-4 p-4 bg-light h-100">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <div class="text-muted small text-uppercase fw-bold">Session duration</div>
-                                    <div class="lm-icon-chip lm-icon-chip-primary">
-                                        <span class="fw-bold text-primary">⏱</span>
-                                    </div>
-                                </div>
-                                <div class="h3 fw-bold mb-0">
-                                    {{ object.duration_hours }} <span class="fs-6 text-muted fw-normal">hrs</span>
-                                </div>
-                                <div class="text-body-secondary small mt-1">
-                                    Enough time for a complete session with a comfortable pace.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="border rounded-4 p-4 bg-light h-100">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <div class="text-muted small text-uppercase fw-bold">Edited photos</div>
-                                    <div class="lm-icon-chip lm-icon-chip-success">
-                                        <span class="fw-bold text-success">📷</span>
-                                    </div>
-                                </div>
-                                <div class="h3 fw-bold mb-0">
-                                    {{ object.max_photos_included }}+ <span class="fs-6 text-muted fw-normal">photos</span>
-                                </div>
-                                <div class="text-body-secondary small mt-1">
-                                    Professionally selected and edited images, ready for sharing.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    <!-- ... existing code ... -->
                 </div>
             </div>
         </div>
@@ -135,7 +96,7 @@
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <h5 class="fw-bold mb-0">Book this package</h5>
-                        <span class="badge text-bg-success rounded-pill px-3 py-2">€{{ object.price }}</span>
+                        <span class="badge text-bg-success rounded-pill px-3 py-2">{{ object.price|eur }}</span>
                     </div>
 
                     <p class="text-body-secondary small mb-4">

@@ -62,6 +62,14 @@ class BookingRequestForm(forms.ModelForm):
             )
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        required_by_validation = {'phone', 'city', 'message', 'package'}
+        for name in required_by_validation:
+            if name in self.fields:
+                self.fields[name].required = True
+
     def clean_event_date(self):
         date = self.cleaned_data.get('event_date')
         if date and date < timezone.now().date():
@@ -105,25 +113,25 @@ class ServicePackageForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(
                 attrs={
-                    'class': 'form-control bg-dark text-white border-secondary',
+                    'class': 'form-control bg-light text-white border-secondary',
                     'placeholder': 'Package name'
                 }
             ),
             'category': forms.Select(
                 attrs={
-                    'class': 'form-select bg-dark text-white border-secondary',
+                    'class': 'form-select bg-light text-white border-secondary',
                     'placeholder': 'Select category'
                 }
             ),
             'price': forms.NumberInput(
                 attrs={
-                    'class': 'form-control bg-dark text-white border-secondary',
+                    'class': 'form-control bg-light text-white border-secondary',
                     'placeholder': 'Price'
                 }
             ),
             'duration_hours': forms.NumberInput(
                 attrs={
-                    'class': 'form-control bg-dark text-white border-secondary',
+                    'class': 'form-control bg-light text-white border-secondary',
                     'placeholder': 'Duration in hours'
                 }
             ),
@@ -135,7 +143,7 @@ class ServicePackageForm(forms.ModelForm):
             ),
             'description': forms.Textarea(
                 attrs={
-                    'class': 'form-control bg-dark text-white border-secondary',
+                    'class': 'form-control bg-light text-white border-secondary',
                     'rows': 3,
                     'placeholder': 'Package description'
                 }
@@ -146,3 +154,45 @@ class ServicePackageForm(forms.ModelForm):
                 }
             ),
         }
+
+    def clean_price(self):
+        price = self.cleaned_data.get('price')
+        if price is None:
+            raise forms.ValidationError("Price is required.")
+        if price <= 0:
+            raise forms.ValidationError("Price must be greater than 0.")
+        return price
+
+    def clean_duration_hours(self):
+        duration_hours = self.cleaned_data.get('duration_hours')
+        if duration_hours is None:
+            raise forms.ValidationError("Duration is required.")
+        if duration_hours <= 0:
+            raise forms.ValidationError("Duration must be greater than 0.")
+        return duration_hours
+
+    def clean_max_photos_included(self):
+        max_photos_included = self.cleaned_data.get('max_photos_included')
+        if max_photos_included is None:
+            raise forms.ValidationError("Max photos included is required.")
+        if max_photos_included <= 0:
+            raise forms.ValidationError("Max photos included must be greater than 0.")
+        return max_photos_included
+
+    def clean_description(self):
+        description = self.cleaned_data.get('description')
+        if not description.strip():
+            raise forms.ValidationError("Description cannot be empty.")
+        return description
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if not name.strip():
+            raise forms.ValidationError("Name cannot be empty.")
+        return name
+
+    def clean_category(self):
+        category = self.cleaned_data.get('category')
+        if not category:
+            raise forms.ValidationError("Category is required.")
+        return category

@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block title %}Book a Session - LensMaster Pro{% endblock %}
 
 {% block content %}
@@ -24,6 +26,8 @@
 
                 <!-- RIGHT SIDE: THE FORM -->
                 <div class="col-md-8 bg-white p-4 p-md-5">
+                    {% load crispy_forms_tags %}
+
                     <div class="d-flex align-items-end justify-content-between gap-3 mb-4">
                         <div>
                             <h3 class="fw-bold mb-1">Booking Request</h3>
@@ -34,86 +38,9 @@
                     <form method="post" novalidate>
                         {% csrf_token %}
 
-                        <!-- PERSONAL INFO -->
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase text-muted">First Name</label>
-                                {{ form.first_name }}
-                                {% if form.first_name.errors %}
-                                    <div class="text-danger small mt-1">{{ form.first_name.errors.0 }}</div>
-                                {% endif %}
-                            </div>
+                        {{ form|crispy }}
 
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase text-muted">Last Name</label>
-                                {{ form.last_name }}
-                                {% if form.last_name.errors %}
-                                    <div class="text-danger small mt-1">{{ form.last_name.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase text-muted">Email Address</label>
-                                {{ form.email }}
-                                {% if form.email.errors %}
-                                    <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase text-muted">Phone Number</label>
-                                {{ form.phone }}
-                                {% if form.phone.errors %}
-                                    <div class="text-danger small mt-1">{{ form.phone.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <!-- EVENT DETAILS -->
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase text-muted">City</label>
-                                {{ form.city }}
-                                {% if form.city.errors %}
-                                    <div class="text-danger small mt-1">{{ form.city.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase text-muted">Preferred Date</label>
-                                {{ form.event_date }}
-                                {% if form.event_date.errors %}
-                                    <div class="text-danger small mt-1">{{ form.event_date.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase text-muted">Service Package</label>
-                                {{ form.package }}
-                                {% if form.package.errors %}
-                                    <div class="text-danger small mt-1">{{ form.package.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-uppercase text-muted">How did you hear about us?</label>
-                                {{ form.heard_from }}
-                                {% if form.heard_from.errors %}
-                                    <div class="text-danger small mt-1">{{ form.heard_from.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <!-- MESSAGE -->
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold small text-uppercase text-muted">Your Vision / Message</label>
-                            {{ form.message }}
-                            {% if form.message.errors %}
-                                <div class="text-danger small mt-1">{{ form.message.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-
-                        <div class="d-grid">
+                        <div class="d-grid mt-3">
                             <button type="submit" class="btn btn-success btn-lg rounded-pill py-3 fw-bold">
                                 Send Booking Request
                             </button>

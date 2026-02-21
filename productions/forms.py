@@ -10,30 +10,30 @@ class ProductionForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(
                 attrs={
-                    'class': 'form-control bg-dark text-white border-secondary',
+                    'class': 'form-control bg-light text-white border-secondary',
                     'placeholder': 'Enter project title'
                 }
             ),
             'category': forms.Select(
                 attrs={
-                    'class': 'form-select bg-dark text-white border-secondary'
+                    'class': 'form-select bg-light text-white border-secondary'
                 }
             ),
             'location': forms.TextInput(
                 attrs={
-                    'class': 'form-control bg-dark text-white border-secondary',
+                    'class': 'form-control bg-light text-white border-secondary',
                     'placeholder': 'e.g Sofia, Bulgaria'
                 }
             ),
             'date_created': forms.DateInput(
                 attrs={
                     'type': 'date',
-                    'class': 'form-control bg-dark text-white border-secondary'
+                    'class': 'form-control bg-light text-white border-secondary'
                 }
             ),
             'short_description': forms.TextInput(
                 attrs={
-                    'class': 'form-control bg-dark text-white border-secondary',
+                    'class': 'form-control bg-light text-white border-secondary',
                     'placeholder': 'Brief summary...'
                 }
             ),
