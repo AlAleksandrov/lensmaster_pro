@@ -68,7 +68,7 @@ lensmaster_pro/
 ## 🧭 Main URLs / Navigation Map
 
 - **Home**: `/`
-- **Portfolio**: `/portfolio/` *(browse categories and productions)*
+- **Portfolio**: `/portfolio/categories/` *(browse categories and productions)*
 - **Packages**: `/bookings/packages/`
 - **Booking request**: `/bookings/request/`
 - **Inventory**: `/inventory/`
