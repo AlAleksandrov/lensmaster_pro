@@ -1,9 +1,9 @@
-# 📷 LensMaster Pro
-
-**LensMaster Pro** is a professional Django web application designed for photography and videography studios. It features a curated portfolio, service package management, client booking requests, and a studio equipment inventory system.
-
----
-
+# 📷 LensMaster Pro  
+  
+**LensMaster Pro** is a professional Django web application designed for photography and videography studios. It features a curated portfolio, service package management, client booking requests, and a studio equipment inventory system.  
+  
+---  
+  
 ## ✨ Key Features & Architecture  
   
 - **Multi-app Django Architecture**: Clean separation of concerns between **Bookings**, **Productions**, **Inventory**, and **Common** utilities.  
@@ -15,7 +15,7 @@
   
 ---  
   
-## 🗂️ Project Structure  
+## 🗂️ Directory Structure  
   
 ```text  
 lensmaster_pro/  
@@ -27,8 +27,6 @@ lensmaster_pro/
 |-- static/            # Global CSS, JavaScript, and images  
 `-- templates/         # HTML templates organized by application module  
 
----
-
 🧭 Site Map & Operations
 Feature / Page	URL Route	Operations	Description
 Home	/	View	Featured categories and latest studio work.
@@ -38,143 +36,105 @@ Service Packages	/bookings/packages/	Full CRUD	List and manage photography/video
 Booking Request	/bookings/request/	Create	Client intake form with validation.
 Inventory	/inventory/	View	Internal list of studio gear grouped by type.
 404 Error	-	-	Custom-designed "Page Not Found" handler.
+🚀 Installation & Setup
+1) Clone the repository
 
----
+bash
+Copy
+git clone https://github.com/AlAleksandrov/lensmaster_pro  
+cd lensmaster_pro  
 
-## ⚙️ Installation & Setup
+2) Create and activate a virtual environment
 
-### 1) Clone the repository
+bash
+Copy
+python -m venv .venv  
+  
+# Windows:  
+.venv\Scripts\activate  
+  
+# macOS/Linux:  
+source .venv/bin/activate  
 
-```bash
-git clone https://github.com/AlAleksandrov/lensmaster_pro
-cd lensmaster_pro
-```
+3) Install dependencies
 
-### 2) Create and activate a virtual environment
+bash
+Copy
+pip install -r requirements.txt  
 
-```bash
-python -m venv .venv
+4) Configure environment variables
 
-# Windows:
-.venv\Scripts\activate
+Create a .env file in the project root (next to manage.py):
 
-# macOS/Linux:
-source .venv/bin/activate
-```
+env
+Copy
+SECRET_KEY=your-secret-key-here  
+DEBUG=True  
+ALLOWED_HOSTS=127.0.0.1,localhost  
+  
+DB_ENGINE=django.db.backends.postgresql  
+DB_NAME=lensmaster_pro  
+DB_USER=postgres  
+DB_PASSWORD=your_password  
+DB_HOST=127.0.0.1  
+DB_PORT=5432  
+  
+LANGUAGE_CODE=en-us  
+TIME_ZONE=UTC  
+USE_I18N=True  
+USE_TZ=True  
 
-### 3) Install dependencies
+5) Apply migrations & Run
 
-```bash
-pip install -r requirements.txt
-```
+bash
+Copy
+# Run migrations  
+python manage.py migrate  
+  
+# Start the server  
+python manage.py runserver  
 
-### 4) Configure environment variables
-
-Create a `.env` file in the project root (next to `manage.py`):
-
-```env
-SECRET_KEY=your-secret-key-here
-DEBUG=True
-ALLOWED_HOSTS=127.0.0.1,localhost
-
-DB_ENGINE=django.db.backends.postgresql
-DB_NAME=lensmaster_pro
-DB_USER=postgres
-DB_PASSWORD=your_password
-DB_HOST=127.0.0.1
-DB_PORT=5432
-
-LANGUAGE_CODE=en-us
-TIME_ZONE=UTC
-USE_I18N=True
-USE_TZ=True
-```
-
-### 5) Apply migrations
-
-```bash
-python manage.py migrate
-```
-
-### 6) Run the development server
-
-```bash
-python manage.py runserver
-```
-
-Open in your browser → **http://127.0.0.1:8000/**
-
----
-
-## 🌐 Live Demo (optional)
+Open in your browser → http://127.0.0.1:8000/
+🌐 Live Demo (optional)
 
 A live demo may be available here (ngrok, temporary):
 
-- https://rosella-unshotted-adjustably.ngrok-free.dev/
+    Live Demo Link
 
 If the link is inactive, please run the project locally following the steps above.
+🖼️ Screenshots
 
-Last verified on: 2026-02-21
+Home page
+Portfolio page
+Production details
+🧪 Data Management (via Django Admin)
 
----
+Authentication for the public site is intentionally excluded (exam requirement). Use the admin panel to manage content:
 
-## 🖼️ Screenshots
+    Create an admin user:
 
-![Home page](static/images/screenshot-home.png)
+    bash
+    Copy
+    python manage.py createsuperuser  
 
-![Portfolio page](static/images/screenshot-portfolio.png)
+    Access Admin Panel: http://127.0.0.1:8000/admin/
+    Manage Content: Add Categories, Productions, Service Packages, and Equipment.
 
-![Production details](static/images/screenshot-production.png)
+🧩 Custom 404 Page
 
----
+To test the custom error page, set DEBUG=False in your .env file and visit a non-existent URL:
 
-## 🧪 How to add sample data (via Django admin)
+    http://127.0.0.1:8000/this-does-not-exist/
 
-Authentication for the public site is intentionally excluded (exam requirement). For demo/testing, you can use the standard Django admin panel to add sample content.
+🗃️ Tech Stack
 
-1) Create an admin user:
+    Backend: Django (Python)
+    Database: PostgreSQL
+    Forms: django-crispy-forms with Bootstrap 5
+    Environment: python-dotenv
+    Images: Pillow
 
-```bash
-python manage.py createsuperuser
-```
+🧾 Project Notes
 
-2) Open the admin panel:
-
-- **Admin**: `http://127.0.0.1:8000/admin/`
-
-3) Add sample data:
-
-- Create **Categories**
-- Create **Productions** (linked to a Category)
-- Create **Service Packages** (linked to a Category)
-- Create **Equipment**
-
----
-
-## 🧩 Custom 404 Page
-
-Set `DEBUG=False` in your `.env` file, then visit any non-existent URL:
-  
-- http://127.0.0.1:8000/this-does-not-exist/
-
----
-
-## 🗃️ Tech Stack
-
-- **Backend**: Django (Python)
-- **Database**: PostgreSQL
-- **Forms**: django-crispy-forms with Bootstrap 5
-- **Environment**: python-dotenv
-- **Images**: Pillow
-
----
-
-## 🧾 Git History
-
-The project includes commits on multiple separate days as required.
-
----
-
-## 📝 License
-
-Educational project for the Django Basics Exam.
+    Git History: Includes commits on multiple separate days as required.
+    License: Educational project for the Django Basics Exam.
