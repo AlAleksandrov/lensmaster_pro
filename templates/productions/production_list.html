@@ -30,7 +30,14 @@
     {% endif %}
     <hr>
 </div>
-
+<form method="get" class="d-flex gap-2 mb-4">
+    <input type="text" name="q" value="{{ search_query }}"
+           class="form-control rounded-pill" placeholder="Search in this category...">
+    <button type="submit" class="btn btn-success rounded-pill px-4">Search</button>
+    {% if search_query %}
+        <a href="." class="btn btn-outline-secondary rounded-pill">Clear</a>
+    {% endif %}
+</form>
 <!-- PRODUCTIONS GRID -->
 <div class="row g-4">
     {% for production in productions %}

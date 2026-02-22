@@ -18,8 +18,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from common.views import HomeView
+from common.views import HomeView, custom_404_view
 
+handler404 = custom_404_view
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),

@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.template.defaultfilters import slugify
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -14,11 +14,22 @@ class CategoryListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        categories = context.get('categories', context.get('object_list'))
+        q = self.request.GET.get('q', '').strip()
 
+        categories = Category.objects.all()
         grouped_portfolio = []
         for category in categories:
             productions = Production.objects.filter(category=category)
+
+            if q:
+                productions = productions.filter(
+                    Q(title__icontains=q)
+                        |
+                    Q(short_description__icontains=q)
+                        |
+                    Q(location__icontains=q)
+                )
+
             if productions.exists():
                 grouped_portfolio.append({
                     'category': category,
@@ -26,9 +37,9 @@ class CategoryListView(ListView):
                 })
 
         context['grouped_portfolio'] = grouped_portfolio
+        context['search_query'] = q
         context['production_create_url'] = reverse_lazy('productions:production_create')
         return context
-
 
 class ProductionByCategoryListView(ListView):
     model = Production
@@ -36,11 +47,23 @@ class ProductionByCategoryListView(ListView):
     context_object_name = 'productions'
 
     def get_queryset(self):
-        return Production.objects.filter(category__slug=self.kwargs['slug'])
+        qs = Production.objects.filter(category__slug=self.kwargs['slug'])
+        q = self.request.GET.get('q', '').strip()
+
+        if q:
+            qs = qs.filter(
+                Q(title__icontains=q)
+                    |
+                Q(short_description__icontains=q)
+                    |
+                Q(location__icontains=q)
+            )
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category'] = Category.objects.get(slug=self.kwargs['slug'])
+        context['search_query'] = self.request.GET.get('q', '')
         return context
 
 

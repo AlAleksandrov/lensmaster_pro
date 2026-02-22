@@ -4,88 +4,40 @@
 
 ---
 
-## ✨ Key Features
-
-- **Multi-app Architecture**: Clean separation of concerns (Bookings, Productions, Inventory, Common).
-- **Full CRUD Functionality**:
-  - **Productions**: Create, View, Update, and Delete portfolio items.
-  - **Service Packages**: Full management of studio offerings (Create, View, Update, Delete).
-- **Dynamic Portfolio**: Organized by categories with detailed production pages and related items.
-- **Booking System**: Client-facing booking form with robust server-side validation.
-- **Inventory Management**: Equipment tracking with auto-generated internal inventory IDs.
-- **Custom 404 Page**: User-friendly error handling for missing resources.
-- **PostgreSQL Integration**: Database configuration via environment variables.
-
----
-
-## 🗂️ Project Structure
-
-```text
-lensmaster_pro/
-|-- bookings/                  # Service packages & booking requests
-|   |-- forms.py
-|   |-- models.py
-|   |-- urls.py
-|   `-- views.py
-|-- common/                    # Shared abstract mixins & utilities
-|   `-- models.py
-|-- inventory/                 # Studio equipment inventory
-|   |-- models.py
-|   |-- urls.py
-|   `-- views.py
-|-- productions/               # Portfolio categories & productions
-|   |-- forms.py
-|   |-- models.py
-|   |-- urls.py
-|   `-- views.py
-|-- lensmaster_pro/            # Project configuration
-|   |-- settings.py
-|   `-- urls.py
-|-- static/
-|   |-- css/
-|   `-- images/
-`-- templates/
-    |-- base.html
-    |-- 404.html
-    |-- home.html
-    |-- bookings/
-    |   |-- booking_form.html
-    |   |-- booking_success.html
-    |   |-- package_form.html
-    |   `-- package_list.html
-    |-- inventory/
-    |   `-- equipment_list.html
-    `-- productions/
-        |-- category_list.html
-        |-- production_confirm_delete.html
-        |-- production_detail.html
-        |-- production_form.html
-        `-- production_list.html
-```
+## ✨ Key Features & Architecture  
+  
+- **Multi-app Django Architecture**: Clean separation of concerns between **Bookings**, **Productions**, **Inventory**, and **Common** utilities.  
+- **Full CRUD Functionality**: Complete management systems for **Productions** and **Service Packages** (Create, Read, Update, Delete).  
+- **Dynamic Portfolio**: Categorized project showcase with detailed production pages and related items.  
+- **Client Booking System**: Integrated booking request forms with robust server-side validation.  
+- **Inventory Tracking**: Professional equipment management with auto-generated internal inventory IDs.  
+- **Production Ready**: PostgreSQL integration via environment variables and custom 404 error handling.  
+  
+---  
+  
+## 🗂️ Project Structure  
+  
+```text  
+lensmaster_pro/  
+|-- bookings/          # Service packages & client booking requests  
+|-- productions/       # Portfolio categories & project showcases  
+|-- inventory/         # Studio equipment & gear tracking  
+|-- common/            # Shared abstract models, mixins & utilities  
+|-- lensmaster_pro/    # Core project configuration (settings, urls)  
+|-- static/            # Global CSS, JavaScript, and images  
+`-- templates/         # HTML templates organized by application module  
 
 ---
 
-## 🧭 Main URLs / Navigation Map
-
-- **Home**: `/`
-- **Portfolio**: `/portfolio/` *(browse categories and productions)*
-- **Packages**: `/bookings/packages/`
-- **Booking request**: `/bookings/request/`
-- **Inventory**: `/inventory/`
-
----
-
-## 📄 Main Pages & CRUD Operations
-
-| Feature | Description | CRUD Status |
-|---|---|---|
-| **Home** | Featured categories and latest studio work. | View |
-| **Portfolio** | Browse all categories and their respective productions. | View |
-| **Productions** | Detailed view of specific projects with related items. | **Full CRUD** |
-| **Service Packages** | List of available photography/videography packages. | **Full CRUD** |
-| **Booking Request** | Client form to request a session with validation. | Create |
-| **Inventory** | Internal list of studio gear grouped by type. | View |
-| **404 Error** | Custom-designed "Page Not Found" template. | - |
+🧭 Site Map & Operations
+Feature / Page	URL Route	Operations	Description
+Home	/	View	Featured categories and latest studio work.
+Portfolio	/portfolio/	View	Browse all categories and productions.
+Productions	/productions/	Full CRUD	Detailed project views and management.
+Service Packages	/bookings/packages/	Full CRUD	List and manage photography/video tiers.
+Booking Request	/bookings/request/	Create	Client intake form with validation.
+Inventory	/inventory/	View	Internal list of studio gear grouped by type.
+404 Error	-	-	Custom-designed "Page Not Found" handler.
 
 ---
 
@@ -201,9 +153,9 @@ python manage.py createsuperuser
 
 ## 🧩 Custom 404 Page
 
-To test the custom 404 page, open:
-
-- `/this-page-does-not-exist/`
+Set `DEBUG=False` in your `.env` file, then visit any non-existent URL:
+  
+- http://127.0.0.1:8000/this-does-not-exist/
 
 ---
 
