@@ -157,3 +157,49 @@ footer {
 .lm-text-xs {
     font-size: 0.8rem;
 }
+
+.equipment-badge {
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.equipment-badge:hover {
+    background-color: rgba(25, 135, 84, 0.1) !important;
+    border-color: #198754 !important;
+    transform: translateY(-2px);
+    text-decoration: none !important;
+}
+
+.transition-hover {
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.transition-hover:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.border-dashed {
+    border-style: dashed !important;
+}
+
+.stretched-link::after {
+    z-index: 1;
+}
+
+.hover-opacity:hover {
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+h5 a .badge {
+    cursor: pointer;
+}
+
+.hover-opacity:hover {
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+}
