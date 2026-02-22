@@ -1,13 +1,31 @@
 # 📷 LensMaster Pro  
   
+![Python](https://img.shields.io/badge/python-3.10+-blue.svg)  
+![Django](https://img.shields.io/badge/django-5.0+-green.svg)  
+![PostgreSQL](https://img.shields.io/badge/postgresql-latest-blue.svg)  
+![Bootstrap](https://img.shields.io/badge/bootstrap-5.3-purple.svg)  
+  
 **LensMaster Pro** is a professional Django web application designed for photography and videography studios. It features a curated portfolio, service package management, client booking requests, and a studio equipment inventory system.  
   
 ---  
   
-## ✨ Key Features & Architecture  
+## 📌 Table of Contents  
+- [✨ Key Features](#-key-features)  
+- [🏗️ Architecture Overview](#️-architecture-overview)  
+- [🧭 Site Map & Operations](#-site-map--operations)  
+- [🗂️ Directory Structure](#️-directory-structure)  
+- [🚀 Installation & Setup](#-installation--setup)  
+- [🌐 Live Demo](#-live-demo)  
+- [🖼️ Screenshots](#️-screenshots)  
+- [🧪 Data Management](#-data-management)  
+- [🧩 Custom 404 Page](#-custom-404-page)  
+- [🗃️ Tech Stack](#️-tech-stack)  
   
-- **Multi-app Django Architecture**: Clean separation of concerns between **Bookings**, **Productions**, **Inventory**, and **Common** utilities.  
-- **Full CRUD Functionality**: Complete management systems for **Productions** and **Service Packages** (Create, Read, Update, Delete).  
+---  
+  
+## ✨ Key Features  
+- **Multi-app Architecture**: Clean separation of concerns between Bookings, Productions, Inventory, and Common utilities.  
+- **Full CRUD Functionality**: Complete management systems for **Productions** and **Service Packages**.  
 - **Dynamic Portfolio**: Categorized project showcase with detailed production pages and related items.  
 - **Client Booking System**: Integrated booking request forms with robust server-side validation.  
 - **Inventory Tracking**: Professional equipment management with auto-generated internal inventory IDs.  
@@ -15,8 +33,32 @@
   
 ---  
   
-## 🗂️ Directory Structure  
+## 🏗️ Architecture Overview  
+- **`productions/`**: Portfolio categories and project showcases (Public browsing + Staff CRUD).  
+- **`bookings/`**: Service packages management and client booking request flow.  
+- **`inventory/`**: Studio equipment and gear tracking.  
+- **`common/`**: Shared abstract models, mixins, and global views (Home, 404).  
+- **`lensmaster_pro/`**: Core project configuration and URL routing.  
   
+---  
+  
+## 🧭 Site Map & Operations  
+  
+| Feature / Page | Exact URL Path | Operations | Description |  
+| :--- | :--- | :--- | :--- |  
+| **Home** | `/` | View | Featured categories and latest studio work. |  
+| **Portfolio Categories** | `/portfolio/categories/` | View | Browse all production categories. |  
+| **Category Details** | `/portfolio/category/<slug>/` | View | List productions within a specific category. |  
+| **Production Details** | `/portfolio/production/<slug>/` | View | Detailed view of a specific project. |  
+| **Manage Productions** | `/portfolio/add/` | **Full CRUD** | Create, Edit, and Delete production items. |  
+| **Service Packages** | `/bookings/packages/` | **Full CRUD** | List and manage photography/video tiers. |  
+| **Booking Request** | `/bookings/request/` | Create | Client intake form with validation. |  
+| **Inventory** | `/inventory/` | View | Internal list of studio gear grouped by type. |  
+| **Admin Panel** | `/admin/` | All | Full database management for staff. |  
+  
+---  
+  
+## 🗂️ Directory Structure  
 ```text  
 lensmaster_pro/  
 |-- bookings/          # Service packages & client booking requests  
@@ -27,44 +69,29 @@ lensmaster_pro/
 |-- static/            # Global CSS, JavaScript, and images  
 `-- templates/         # HTML templates organized by application module  
 
-🧭 Site Map & Operations
-Feature / Page	URL Route	Operations	Description
-Home	/	View	Featured categories and latest studio work.
-Portfolio	/portfolio/	View	Browse all categories and productions.
-Productions	/productions/	Full CRUD	Detailed project views and management.
-Service Packages	/bookings/packages/	Full CRUD	List and manage photography/video tiers.
-Booking Request	/bookings/request/	Create	Client intake form with validation.
-Inventory	/inventory/	View	Internal list of studio gear grouped by type.
-404 Error	-	-	Custom-designed "Page Not Found" handler.
 🚀 Installation & Setup
 1) Clone the repository
 
 bash
 Copy
-git clone https://github.com/AlAleksandrov/lensmaster_pro  
+git clone https://github.com/AlAleksandrov/lensmaster_pro.git  
 cd lensmaster_pro  
 
-2) Create and activate a virtual environment
+2) Environment Setup
 
 bash
 Copy
+# Create and activate virtual environment  
 python -m venv .venv  
+source .venv/bin/activate  # macOS/Linux  
+# .venv\Scripts\activate   # Windows  
   
-# Windows:  
-.venv\Scripts\activate  
-  
-# macOS/Linux:  
-source .venv/bin/activate  
-
-3) Install dependencies
-
-bash
-Copy
+# Install dependencies  
 pip install -r requirements.txt  
 
-4) Configure environment variables
+3) Configuration
 
-Create a .env file in the project root (next to manage.py):
+Create a .env file in the project root:
 
 env
 Copy
@@ -78,53 +105,41 @@ DB_USER=postgres
 DB_PASSWORD=your_password  
 DB_HOST=127.0.0.1  
 DB_PORT=5432  
-  
-LANGUAGE_CODE=en-us  
-TIME_ZONE=UTC  
-USE_I18N=True  
-USE_TZ=True  
 
-5) Apply migrations & Run
+4) Initialize Database
 
 bash
 Copy
-# Run migrations  
 python manage.py migrate  
-  
-# Start the server  
+python manage.py createsuperuser  
 python manage.py runserver  
 
-Open in your browser → http://127.0.0.1:8000/
-🌐 Live Demo (optional)
+Access the site at: http://127.0.0.1:8000/
+🌐 Live Demo
 
-A live demo may be available here (ngrok, temporary):
+A temporary live demo may be available via ngrok:
 
     Live Demo Link
 
-If the link is inactive, please run the project locally following the steps above.
 🖼️ Screenshots
 
 Home page
 Portfolio page
 Production details
-🧪 Data Management (via Django Admin)
+🧪 Data Management
 
-Authentication for the public site is intentionally excluded (exam requirement). Use the admin panel to manage content:
+Authentication for the public site is intentionally excluded per exam requirements. Use the Django Admin to populate the site:
 
-    Create an admin user:
-
-    bash
-    Copy
-    python manage.py createsuperuser  
-
-    Access Admin Panel: http://127.0.0.1:8000/admin/
-    Manage Content: Add Categories, Productions, Service Packages, and Equipment.
+    Login at /admin/.
+    Add Categories first.
+    Link Productions and Service Packages to your categories.
+    Add Equipment to the inventory.
 
 🧩 Custom 404 Page
 
-To test the custom error page, set DEBUG=False in your .env file and visit a non-existent URL:
+To test the custom error handler, set DEBUG=False in your .env and visit:
 
-    http://127.0.0.1:8000/this-does-not-exist/
+    http://127.0.0.1:8000/non-existent-page/
 
 🗃️ Tech Stack
 
@@ -133,6 +148,7 @@ To test the custom error page, set DEBUG=False in your .env file and visit a non
     Forms: django-crispy-forms with Bootstrap 5
     Environment: python-dotenv
     Images: Pillow
+    Frontend: Bootstrap 5 + Custom CSS
 
 🧾 Project Notes
 
