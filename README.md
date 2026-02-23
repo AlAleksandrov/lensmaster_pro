@@ -1,7 +1,7 @@
 # 📷 LensMaster Pro
 
-![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
-![Django](https://img.shields.io/badge/django-5.0+-green.svg)
+![Python](https://img.shields.io/badge/python-3.14-blue.svg)
+![Django](https://img.shields.io/badge/django-6.0.2-green.svg)
 ![PostgreSQL](https://img.shields.io/badge/postgresql-latest-blue.svg)
 ![Bootstrap](https://img.shields.io/badge/bootstrap-5.3-purple.svg)
 
