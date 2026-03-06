@@ -39,12 +39,14 @@ ALLOWED_HOSTS.extend([
     "127.0.0.1",
     "localhost",
     "rosella-unshotted-adjustably.ngrok-free.dev",
+    'lensmaster-pro.onrender.com',
 ])
 
 CSRF_TRUSTED_ORIGINS = ([
     "http://127.0.0.1",
     "http://localhost",
     "https://rosella-unshotted-adjustably.ngrok-free.dev",
+    'lensmaster-pro.onrender.com',
 ])
 
 # Application definition
