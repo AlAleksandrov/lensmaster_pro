@@ -100,14 +100,15 @@ Create a `.env` file in the project root:
 ```env
 SECRET_KEY=your-secret-key-here
 DEBUG=True
-ALLOWED_HOSTS=127.0.0.1,localhost
+ALLOWED_HOSTS=127.0.0.1,localhost,rosella-unshotted-adjustably.ngrok-free.dev,lensmaster-pro.onrender.com
 
 DB_ENGINE=django.db.backends.postgresql
-DB_NAME=lensmaster_pro
+DB_NAME=lensmaster_pro_db
 DB_USER=postgres
 DB_PASSWORD=your_password
 DB_HOST=127.0.0.1
 DB_PORT=5432
+DATABASE_URL=postgresql://postgres:your_password@127.0.0.1:5432/lensmaster_pro_db
 ```
 
 ### 4) Initialize Database
@@ -121,8 +122,10 @@ Access the site at: **http://127.0.0.1:8000/**
 ---
 
 ## 🌐 Live Demo
-A temporary live demo may be available via ngrok:
-- [Live Demo Link](https://rosella-unshotted-adjustably.ngrok-free.dev/)
+A temporary live demo will be available here:
+- [Live Demo Link ngrok](https://rosella-unshotted-adjustably.ngrok-free.dev/)
+
+- [Live Demo Link Render](https://lensmaster-pro.onrender.com/)
 
 ---
 
