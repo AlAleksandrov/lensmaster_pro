@@ -46,7 +46,7 @@ CSRF_TRUSTED_ORIGINS = ([
     "http://127.0.0.1",
     "http://localhost",
     "https://rosella-unshotted-adjustably.ngrok-free.dev",
-    'lensmaster-pro.onrender.com',
+    'https://lensmaster-pro.onrender.com',
 ])
 
 # Application definition
