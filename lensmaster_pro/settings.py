@@ -167,14 +167,14 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'lensmaster_pro.storage.StaticStorage'
 
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "lensmaster_pro.storage.CustomWhiteNoiseStorage",
+        "BACKEND": "lensmaster_pro.storage.StaticStorage",
     },
 }
 
