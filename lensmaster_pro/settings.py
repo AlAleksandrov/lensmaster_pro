@@ -166,7 +166,15 @@ STATIC_ROOT = BASE_DIR / os.getenv("STATIC_ROOT", "staticfiles")
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Media files (user uploads)
 MEDIA_URL = "/media/"

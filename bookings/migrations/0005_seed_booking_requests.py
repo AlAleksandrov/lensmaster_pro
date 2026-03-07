@@ -61,7 +61,7 @@ BOOKING_SEED = [
         "phone": "08787908524",
         "city": "Elin Pelin",
         "event_date": date(2026, 3, 28),
-        "package_name": "Drone photography & videography",
+        "package_name": "Drone photography and videography",
         "message": "We want drone flyover shots of a countryside venue for a short promo reel.",
         "heard_from": "google",
         "status": "pending",
