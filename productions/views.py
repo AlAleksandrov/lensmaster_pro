@@ -11,14 +11,19 @@ class CategoryListView(ListView):
     model = Category
     template_name = 'productions/category_list.html'
     context_object_name = 'categories'
+    paginate_by = 2
+
+    def get_queryset(self):
+        return Category.objects.all().order_by('name')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         q = self.request.GET.get('q', '').strip()
 
-        categories = Category.objects.all()
+        categories_on_page = context['page_obj']
+
         grouped_portfolio = []
-        for category in categories:
+        for category in categories_on_page:
             productions = Production.objects.filter(category=category)
 
             if q:
@@ -45,9 +50,10 @@ class ProductionByCategoryListView(ListView):
     model = Production
     template_name = 'productions/production_list.html'
     context_object_name = 'productions'
+    paginate_by = 1
 
     def get_queryset(self):
-        qs = Production.objects.filter(category__slug=self.kwargs['slug'])
+        qs = Production.objects.filter(category__slug=self.kwargs['slug']).order_by('-created_at')
         q = self.request.GET.get('q', '').strip()
 
         if q:
@@ -55,15 +61,19 @@ class ProductionByCategoryListView(ListView):
                 Q(title__icontains=q)
                     |
                 Q(short_description__icontains=q)
-                    |
-                Q(location__icontains=q)
             )
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['category'] = Category.objects.get(slug=self.kwargs['slug'])
+
+        try:
+            context['category'] = Category.objects.get(slug=self.kwargs['slug'])
+        except Category.DoesNotExist:
+            context['category'] = None
+
         context['search_query'] = self.request.GET.get('q', '')
+
         return context
 
 

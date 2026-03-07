@@ -21,17 +21,17 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 bg-dark text-white border-secondary rounded-4 shadow-lg overflow-hidden transition-hover position-relative">
                     <div class="card-body p-4">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h4 class="h5 fw-bold mb-0">{{ item.brand }}</h4>
-                        </div>
-                        <p class="text-secondary small mb-4">{{ item.model_name }}</p>
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h4 class="h5 fw-bold mb-0">{{ item.brand }}</h4>
+                    </div>
+                    <p class="text-secondary small mb-4">Model: {{ item.model }}</p>
 
-                        <div class="mt-auto pt-3 border-top border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
-                            <code class="text-success small">{{ item.internal_id }}</code>
-                            <span class="text-secondary small">View Details →</span>
-                        </div>
+                    <div class="mt-auto pt-3 border-top border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                    <code class="text-success small">{{ item.internal_id }}</code>
+                    <span class="text-secondary small">View Details →</span>
+                    </div>
 
-                        <a href="{% url 'inventory:equipment_detail' item.pk %}" class="stretched-link"></a>
+                    <a href="{% url 'inventory:equipment_detail' item.pk %}" class="stretched-link"></a>
                     </div>
                 </div>
             </div>
@@ -43,5 +43,41 @@
         <p class="text-secondary mb-0">No equipment found in the inventory.</p>
     </div>
     {% endfor %}
+
+    <!-- PAGINATION -->
+    {% if page_obj.has_other_pages %}
+    <nav class="mt-5 d-flex justify-content-center" aria-label="Equipment pagination">
+        <ul class="pagination gap-1">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link rounded-pill px-3" href="?page={{ page_obj.previous_page_number }}">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link rounded-pill px-3">{{ num }}</span>
+                </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link rounded-pill px-3" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link rounded-pill px-3" href="?page={{ page_obj.next_page_number }}">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
 </div>
 {% endblock %}

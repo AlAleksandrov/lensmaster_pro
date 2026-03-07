@@ -25,63 +25,63 @@
                 <div class="card h-100 rounded-4 overflow-hidden lm-card-hover">
                     <div class="card-body p-4">
 
-                        <!-- PACKAGE NAME & PRICE -->
-                        <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
-                            <div class="min-w-0">
-                                <h3 class="h5 fw-bold mb-1 text-truncate">
-                                    <a href="{% url 'bookings:package_detail' package.pk %}"
-                                       class="text-decoration-none text-dark">
-                                        {{ package.name }}
-                                    </a>
-                                </h3>
-                                {% if package.description %}
-                                <p class="text-muted small mb-0">
-                                    {{ package.description|truncatewords:18 }}
-                                </p>
-                                {% endif %}
-                            </div>
+                    <!-- PACKAGE NAME & PRICE -->
+                    <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                    <div class="min-w-0">
+                    <h3 class="h5 fw-bold mb-1 text-truncate">
+                    <a href="{% url 'bookings:package_detail' package.pk %}"
+                    class="text-decoration-none text-dark">
+                    {{ package.name }}
+                    </a>
+                    </h3>
+                    {% if package.description %}
+                    <p class="text-muted small mb-0">
+                    {{ package.description|truncatewords:18 }}
+                    </p>
+                    {% endif %}
+                    </div>
 
-                            <span class="badge text-bg-success rounded-pill px-3 py-2 flex-shrink-0">
-                                {{ package.price|eur }}
-                            </span>
-                        </div>
+                    <span class="badge text-bg-success rounded-pill px-3 py-2 flex-shrink-0">
+                    {{ package.price|eur }}
+                    </span>
+                    </div>
 
-                        <!-- DETAILS -->
-                        <div class="row g-2">
-                            <div class="col-6">
-                                <div class="border rounded-4 p-3 bg-light h-100">
-                                    <div class="text-muted small text-uppercase fw-bold mb-1">Duration</div>
-                                    <div class="fw-bold">{{ package.duration_hours|hours_label }} hours</div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="border rounded-4 p-3 bg-light h-100">
-                                    <div class="text-muted small text-uppercase fw-bold mb-1">Edited photos</div>
-                                    <div class="fw-bold">{{ package.max_photos_included }}+</div>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- DETAILS -->
+                    <div class="row g-2">
+                    <div class="col-6">
+                    <div class="border rounded-4 p-3 bg-light h-100">
+                    <div class="text-muted small text-uppercase fw-bold mb-1">Duration</div>
+                    <div class="fw-bold">{{ package.duration_hours|hours_label }} hours</div>
+                    </div>
+                    </div>
+                    <div class="col-6">
+                    <div class="border rounded-4 p-3 bg-light h-100">
+                    <div class="text-muted small text-uppercase fw-bold mb-1">Edited photos</div>
+                    <div class="fw-bold">{{ package.max_photos_included }}+</div>
+                    </div>
+                    </div>
+                    </div>
 
                     </div>
 
                     <!-- CARD FOOTER -->
                     <div class="card-footer bg-white border-0 p-4 pt-0">
-                        <div class="d-flex flex-wrap gap-2">
-                            <a href="{% url 'bookings:booking_request' %}?package={{ package.pk }}"
-                               class="btn btn-success btn-sm rounded-pill px-3">
-                                Book Now →
-                            </a>
+                    <div class="d-flex flex-wrap gap-2">
+                    <a href="{% url 'bookings:booking_request' %}?package={{ package.pk }}"
+                    class="btn btn-success btn-sm rounded-pill px-3">
+                    Book Now →
+                    </a>
 
-                            <a href="{% url 'bookings:package_edit' package.pk %}"
-                               class="btn btn-warning btn-sm text-dark px-3 lm-btn-action">
-                                Edit
-                            </a>
+                    <a href="{% url 'bookings:package_edit' package.pk %}"
+                    class="btn btn-warning btn-sm text-dark px-3 lm-btn-action">
+                    Edit
+                    </a>
 
-                            <a href="{% url 'bookings:package_delete' package.pk %}"
-                               class="btn btn-danger btn-sm px-3 lm-btn-action">
-                                Delete
-                            </a>
-                        </div>
+                    <a href="{% url 'bookings:package_delete' package.pk %}"
+                    class="btn btn-danger btn-sm px-3 lm-btn-action">
+                    Delete
+                    </a>
+                    </div>
                     </div>
 
                 </div>
@@ -99,6 +99,41 @@
         </a>
     </div>
     {% endfor %}
+
+    <!-- PAGINATION -->
+    {% if page_obj.has_other_pages %}
+    <nav class="mt-5 d-flex justify-content-center" aria-label="Packages pagination">
+        <ul class="pagination gap-1">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link rounded-pill px-3" href="?page={{ page_obj.previous_page_number }}">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link rounded-pill px-3">{{ num }}</span>
+                </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link rounded-pill px-3" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link rounded-pill px-3" href="?page={{ page_obj.next_page_number }}">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
 
 </div>
 {% endblock %}

@@ -2,7 +2,7 @@ from django.urls import path, include
 from productions.views import CategoryListView, ProductionByCategoryListView, ProductionDetailView, \
     ProductionCreateView, ProductionUpdateView, ProductionDeleteView
 
-app_name = 'productions'
+app_name = 'portfolio'
 
 productions_patterns = [
     path('', ProductionDetailView.as_view(), name='production_detail'),

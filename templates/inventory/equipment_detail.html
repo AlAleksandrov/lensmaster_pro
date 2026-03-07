@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ item.brand }} {{ item.model_name }} - Details{% endblock %}
+{% block title %}{{ item.brand }} {{ item.model }} - Details{% endblock %}
 
 {% block content %}
 <div class="container py-5">
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'inventory:equipment_list' %}" class="text-success text-decoration-none">Inventory</a></li>
-            <li class="breadcrumb-item active text-secondary" aria-current="page">{{ item.model_name }}</li>
+            <li class="breadcrumb-item active text-secondary" aria-current="page">{{ item.model }}</li>
         </ol>
     </nav>
 
@@ -17,7 +17,7 @@
             <div class="card bg-dark text-white border-secondary rounded-4 p-4 shadow-lg">
                 <span class="badge bg-secondary align-self-start mb-3">{{ item.get_equipment_type_display }}</span>
                 <h1 class="display-6 fw-bold mb-1">{{ item.brand }}</h1>
-                <p class="text-secondary fs-5 mb-4">{{ item.model_name }}</p>
+                <p class="text-secondary fs-5 mb-4">Model: {{ item.model }}</p>
 
                 <div class="bg-black bg-opacity-25 rounded-3 p-3 mb-4 border border-secondary border-opacity-25">
                     <div class="small mb-2">
