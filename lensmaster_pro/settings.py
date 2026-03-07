@@ -170,11 +170,16 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
+
 STATICFILES_STORAGE = "lensmaster_pro.storage.StaticStorage"
 
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "django.core.files.storage.FileSystemStorage" if DEBUG else "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
         "BACKEND": "lensmaster_pro.storage.StaticStorage",
