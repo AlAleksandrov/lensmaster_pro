@@ -30,9 +30,9 @@ class Equipment(ActiveStatusMixin, models.Model):
 
     cover_image = models.ImageField(
         upload_to='equipment_covers/',
-        storage=MediaCloudinaryStorage(),
         blank=True,
         null=True,
+        verbose_name='Equipment Image',
     )
 
     specifications = models.TextField(

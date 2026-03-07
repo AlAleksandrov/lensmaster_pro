@@ -15,7 +15,6 @@ class Category(SlugMixin, DescriptionMixin, models.Model):
 
     cover_image = models.ImageField(
         upload_to='category_covers/',
-        storage=MediaCloudinaryStorage(),
         blank=True,
         null=True,
         verbose_name='Category image',
@@ -57,7 +56,6 @@ class Production(SlugMixin, DescriptionMixin, TimestampedMixin, models.Model):
 
     cover_image = models.ImageField(
         upload_to='production_covers/',
-        storage=MediaCloudinaryStorage(),
         blank=True,
         null=True,
         verbose_name='Production image',
