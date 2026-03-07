@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
-from django.conf.global_settings import CSRF_TRUSTED_ORIGINS
-from django.conf.urls.static import static
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -111,7 +109,9 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=not DEBUG,
     )
 }
 
@@ -158,7 +158,7 @@ CLOUDINARY_STORAGE = {
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-STATIC_URL = os.getenv("STATIC_URL", "static/")
+STATIC_URL = os.getenv("STATIC_URL", "/static/")
 STATIC_ROOT = BASE_DIR / os.getenv("STATIC_ROOT", "staticfiles")
 STATICFILES_DIRS = [
     BASE_DIR / "static"
