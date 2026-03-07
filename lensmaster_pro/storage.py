@@ -1,19 +1,11 @@
-from whitenoise.storage import CompressedManifestStaticFilesStorage
-from whitenoise.storage import MissingFileError
+from django.contrib.staticfiles.storage import ManifestStaticFilesStorage
 
 
-class StaticStorage(CompressedManifestStaticFilesStorage):
+class StaticStorage(ManifestStaticFilesStorage):
     manifest_strict = False
 
-    def post_process(self, paths, dry_run=False, **options):
-        gen = super().post_process(paths, dry_run=dry_run, **options)
-
-        while True:
-            try:
-                yield next(gen)
-            except StopIteration:
-                break
-            except MissingFileError as e:
-                if options.get("verbosity", 0) >= 1:
-                    print(f"WhiteNoise: skipped missing referenced static file: {e}")
-                continue
+    def hashed_name(self, name, content=None, filename=None):
+        try:
+            return super().hashed_name(name, content=content, filename=filename)
+        except (ValueError, Exception):
+            return name

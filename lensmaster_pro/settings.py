@@ -170,14 +170,14 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+STATICFILES_STORAGE = "lensmaster_pro.storage.StaticStorage"
 
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
+        "BACKEND": "lensmaster_pro.storage.StaticStorage",
     },
 }
 
