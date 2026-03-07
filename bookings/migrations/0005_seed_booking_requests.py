@@ -61,7 +61,7 @@ BOOKING_SEED = [
         "phone": "08787908524",
         "city": "Elin Pelin",
         "event_date": date(2026, 3, 28),
-        "package_name": "Drone photography and videography",
+        "package_name": "Drone photography & videography",
         "message": "We want drone flyover shots of a countryside venue for a short promo reel.",
         "heard_from": "google",
         "status": "pending",
@@ -70,17 +70,17 @@ BOOKING_SEED = [
 ]
 
 def forwards(apps, schema_editor):
-    BookingRequest = apps.get_model("bookings", "BookingRequest")
-    ServicePackage = apps.get_model("bookings", "ServicePackage")
+    booking_request = apps.get_model("bookings", "BookingRequest")
+    service_package = apps.get_model("bookings", "ServicePackage")
 
-    packages = {p.name: p for p in ServicePackage.objects.all()}
+    packages = {p.name: p for p in service_package.objects.all()}
 
     for row in BOOKING_SEED:
         package = packages.get(row["package_name"])
         if package is None:
             raise ValueError(f"Missing ServicePackage with name={row['package_name']}")
 
-        BookingRequest.objects.update_or_create(
+        booking_request.objects.update_or_create(
             email=row["email"],
             event_date=row["event_date"],
             defaults={

@@ -12,7 +12,7 @@ PACKAGE_SEED = [
         "is_active": True,
     },
     {
-        "name": "Drone videography",
+        "name": "Drone photography & videography",
         "category_slug": "drone-photography-videography",
         "description": "Drone photography & videography",
         "price": Decimal("350.00"),
