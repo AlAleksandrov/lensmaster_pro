@@ -6,46 +6,28 @@ from inventory.models import Equipment
 class EquipmentListView(ListView):
     model = Equipment
     template_name = 'inventory/equipment_list.html'
-    context_object_name = 'equipment_items'
+    context_object_name = 'equipment_list'
     paginate_by = 4
 
     def get_queryset(self):
-        qs = Equipment.objects.filter(is_active=True).order_by('equipment_type')
-
-        selected_type = self.request.GET.get('type')
-        if selected_type:
-            qs = qs.filter(equipment_type__iexact=selected_type)
-
-        try:
-            qs = qs.prefetch_related('productions')
-        except AttributeError:
-            pass
-
-        return qs
+        return Equipment.objects.filter(is_active=True).prefetch_related('productions')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        qs = self.get_queryset()
 
-        ordered_types = ['Camera', 'Lens', 'Lighting', 'Drone', 'Other']
+        types = Equipment.EquipmentType.choices
 
-        context['selected_type'] = self.request.GET.get('type')
+        grouped = []
+        for val, label in types:
+            items = qs.filter(equipment_type=val)
+            if items.exists():
+                grouped.append({
+                    'type': label,
+                    'items': items,
+                })
 
-        grouped = {}
-        for item in context['equipment_items']:
-            label = item.get_equipment_type_display()
-            if label not in grouped:
-                grouped[label] = []
-            grouped[label].append(item)
-
-        grouped_equipment = [{
-            'type': t,
-            'items': grouped[t]
-        }
-            for t in ordered_types
-            if t in grouped
-        ]
-
-        context['grouped_equipment'] = grouped_equipment
+        context['grouped_equipment'] = grouped
 
         return context
 
@@ -57,13 +39,7 @@ class EquipmentDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        item = self.object
 
-        if hasattr(item, 'productions'):
-            productions = item.productions.all()
-        else:
-            productions = getattr(item, 'production_set', item.__class__).all() if hasattr(item, '__class__') else []
-
-        context['productions'] = productions
+        context['productions'] = self.object.productions.all().select_related('category')
 
         return context

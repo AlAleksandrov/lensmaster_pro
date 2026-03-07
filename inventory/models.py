@@ -1,5 +1,4 @@
 import uuid
-from cloudinary_storage.storage import MediaCloudinaryStorage
 from django.db import models
 from common.models import ActiveStatusMixin
 
