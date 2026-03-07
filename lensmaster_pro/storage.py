@@ -3,14 +3,17 @@ from whitenoise.storage import MissingFileError
 
 
 class StaticStorage(CompressedManifestStaticFilesStorage):
-    """
-    Keep Manifest hashing (good for production caching),
-    but don't crash collectstatic if third‑party CSS references missing files.
-    """
     manifest_strict = False
 
     def post_process(self, paths, dry_run=False, **options):
-        try:
-            yield from super().post_process(paths, dry_run=dry_run, **options)
-        except MissingFileError:
-            return
+        gen = super().post_process(paths, dry_run=dry_run, **options)
+
+        while True:
+            try:
+                yield next(gen)
+            except StopIteration:
+                break
+            except MissingFileError as e:
+                if options.get("verbosity", 0) >= 1:
+                    print(f"WhiteNoise: skipped missing referenced static file: {e}")
+                continue
