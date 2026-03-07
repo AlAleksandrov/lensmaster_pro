@@ -23,7 +23,7 @@ class ServicePackageListView(ListView):
     model = ServicePackage
     template_name = 'bookings/package_list.html'
     context_object_name = 'packages'
-    paginate_by = 2
+    paginate_by = 5
 
     def get_queryset(self):
         return super().get_queryset().filter(is_active=True).order_by('category__name', 'price')

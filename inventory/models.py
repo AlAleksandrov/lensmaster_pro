@@ -1,5 +1,5 @@
 import uuid
-
+from cloudinary_storage.storage import MediaCloudinaryStorage
 from django.db import models
 from common.models import ActiveStatusMixin
 
@@ -26,6 +26,13 @@ class Equipment(ActiveStatusMixin, models.Model):
         max_length=50,
         choices=EquipmentType,
         default=EquipmentType.OTHER,
+    )
+
+    cover_image = models.ImageField(
+        upload_to='equipment_covers/',
+        storage=MediaCloudinaryStorage(),
+        blank=True,
+        null=True,
     )
 
     specifications = models.TextField(

@@ -1,3 +1,4 @@
+from cloudinary_storage.storage import MediaCloudinaryStorage
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
@@ -14,8 +15,10 @@ class Category(SlugMixin, DescriptionMixin, models.Model):
 
     cover_image = models.ImageField(
         upload_to='category_covers/',
+        storage=MediaCloudinaryStorage(),
         blank=True,
         null=True,
+        verbose_name='Category image',
     )
 
     class Meta:
@@ -54,8 +57,10 @@ class Production(SlugMixin, DescriptionMixin, TimestampedMixin, models.Model):
 
     cover_image = models.ImageField(
         upload_to='production_covers/',
+        storage=MediaCloudinaryStorage(),
         blank=True,
         null=True,
+        verbose_name='Production image',
     )
 
     video_url = models.URLField(

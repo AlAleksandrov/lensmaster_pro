@@ -7,7 +7,7 @@ class EquipmentListView(ListView):
     model = Equipment
     template_name = 'inventory/equipment_list.html'
     context_object_name = 'equipment_items'
-    paginate_by = 2
+    paginate_by = 4
 
     def get_queryset(self):
         qs = Equipment.objects.filter(is_active=True).order_by('equipment_type')
