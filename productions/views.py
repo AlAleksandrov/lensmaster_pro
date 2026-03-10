@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.template.defaultfilters import slugify
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from productions.forms import ProductionForm
+from productions.forms import ProductionForm, CategoryForm
 from productions.models import Category, Production
 
 
@@ -44,6 +44,7 @@ class CategoryListView(ListView):
         context['grouped_portfolio'] = grouped_portfolio
         context['search_query'] = q
         context['production_create_url'] = reverse_lazy('productions:production_create')
+        context['category_create_url'] = reverse_lazy('productions:category_create')
         return context
 
 class ProductionByCategoryListView(ListView):
@@ -111,4 +112,28 @@ class ProductionUpdateView(UpdateView):
 class ProductionDeleteView(DeleteView):
     model = Production
     template_name = 'productions/production_confirm_delete.html'
+    success_url = reverse_lazy('productions:category_list')
+
+
+class CategoryCreateView(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'productions/category_form.html'
+    success_url = reverse_lazy('productions:category_list')
+
+    def form_valid(self, form):
+        form.instance.slug = slugify(form.instance.name)
+        return super().form_valid(form)
+
+
+class CategoryUpdateView(UpdateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'productions/category_form.html'
+    success_url = reverse_lazy('productions:category_list')
+
+
+class CategoryDeleteView(DeleteView):
+    model = Category
+    template_name = 'productions/category_confirm_delete.html'
     success_url = reverse_lazy('productions:category_list')

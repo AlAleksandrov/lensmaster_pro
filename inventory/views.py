@@ -1,4 +1,6 @@
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from inventory.forms import EquipmentForm
 from inventory.models import Equipment
 
 
@@ -43,3 +45,23 @@ class EquipmentDetailView(DetailView):
         context['productions'] = self.object.productions.all().select_related('category')
 
         return context
+
+
+class EquipmentCreateView(CreateView):
+    model = Equipment
+    form_class = EquipmentForm
+    template_name = 'inventory/equipment_form.html'
+    success_url = reverse_lazy('inventory:equipment_list')
+
+
+class EquipmentUpdateView(UpdateView):
+    model = Equipment
+    form_class = EquipmentForm
+    template_name = 'inventory/equipment_form.html'
+    success_url = reverse_lazy('inventory:equipment_list')
+
+
+class EquipmentDeleteView(DeleteView):
+    model = Equipment
+    template_name = 'inventory/equipment_confirm_delete.html'
+    success_url = reverse_lazy('inventory:equipment_list')

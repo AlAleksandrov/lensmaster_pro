@@ -5,7 +5,12 @@
 {% block content %}
 <div class="py-5">
     <h1 class="display-5 fw-bold text-white mb-2">Professional Equipment</h1>
-    <p class="text-secondary mb-5">High-end gear used for our professional productions.</p>
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <p class="text-secondary mb-0">High-end gear used for our professional productions.</p>
+        <a href="{% url 'inventory:equipment_create' %}" class="btn btn-success rounded-pill px-4 fw-bold">
+            + Add Equipment
+        </a>
+    </div>
 
     {% for group in grouped_equipment %}
     <div class="mb-5">

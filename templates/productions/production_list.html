@@ -16,13 +16,26 @@
 
 <!-- PAGE HEADER -->
 <div class="mb-5">
-    <div class="d-flex align-items-center gap-3 mb-2">
-        {% if category.cover_image %}
-            <img src="{{ category.cover_image.url }}" class="rounded-circle lm-img-circle-56">
-        {% endif %}
-        <div class="min-w-0">
-            <h1 class="fw-bold mb-0">{{ category.name }}</h1>
-            <div class="text-muted small">{{ productions|length }} project{{ productions|length|pluralize }}</div>
+    <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
+        <div class="d-flex align-items-center gap-3">
+            {% if category.cover_image %}
+                <img src="{{ category.cover_image.url }}" class="rounded-circle lm-img-circle-56">
+            {% endif %}
+            <div class="min-w-0">
+                <h1 class="fw-bold mb-0">{{ category.name }}</h1>
+                <div class="text-muted small">{{ productions|length }} project{{ productions|length|pluralize }}</div>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+          <a href="{% url 'productions:category_edit' category.slug %}"
+             class="btn btn-warning rounded-pill px-4 text-nowrap">
+            Edit Category
+          </a>
+
+          <a href="{% url 'productions:production_create' %}"
+             class="btn btn-success rounded-pill px-4 text-nowrap">
+            + Add New Production
+          </a>
         </div>
     </div>
     {% if category.description %}

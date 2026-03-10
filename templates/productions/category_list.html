@@ -4,7 +4,7 @@
 
 {% block content %}
 
-{% include 'partials/page_header.html' with title='Our Portfolio' subtitle='Browse our work by category — from weddings to commercial productions.' cta_url=production_create_url cta_text='+ Add New Production' %}
+{% include 'partials/page_header.html' with title='Our Portfolio' subtitle='Browse our work by category — from weddings to commercial productions.' cta_url=category_create_url cta_text='+ Add Category' %}
 
 <form method="get" action="{% url 'productions:category_list' %}" class="d-flex gap-2 mb-5">
     <input type="text" name="q" value="{{ search_query }}"
@@ -19,17 +19,32 @@
 
 <!-- CATEGORY SECTION -->
 <section class="mb-5">
-    <div class="d-flex align-items-center mb-4">
-        {% if group.category.cover_image %}
-            <img src="{{ group.category.cover_image.url }}" class="rounded-circle me-3 lm-img-circle-48">
-        {% endif %}
-        <div>
-            <a href="{% url 'productions:production_list_by_category' group.category.slug %}" target="_blank" class="text-decoration-none hover-opacity">
-                <span class="badge text-bg-dark rounded-pill px-3 py-2 fs-6">{{ group.category.name }}</span>
-            </a>
-            <span class="text-muted small ms-2">
-                {{ group.items|length }} project{{ group.items|length|pluralize }}
-            </span>
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div class="d-flex align-items-center">
+            {% if group.category.cover_image %}
+                <img src="{{ group.category.cover_image.url }}" class="rounded-circle me-3 lm-img-circle-48">
+            {% endif %}
+            <div>
+                <a href="{% url 'productions:production_list_by_category' group.category.slug %}" class="text-decoration-none hover-opacity">
+                    <span class="badge text-bg-dark rounded-pill px-3 py-2 fs-6">{{ group.category.name }}</span>
+                </a>
+                <span class="text-muted small ms-2">
+                    {{ group.items|length }} project{{ group.items|length|pluralize }}
+                </span>
+            </div>
+        </div>
+
+        <!-- CATEGORY ACTIONS -->
+        <div class="d-flex gap-2">
+          <a href="{% url 'productions:category_edit' group.category.slug %}"
+             class="btn btn-warning rounded-pill px-4 text-nowrap">
+            Edit Category
+          </a>
+
+          <a href="{% url 'productions:category_delete' group.category.slug %}"
+             class="btn btn-danger rounded-pill px-4 text-nowrap">
+            Delete Category
+          </a>
         </div>
     </div>
 
@@ -120,5 +135,5 @@
     </nav>
     {% endif %}
 
-</div> <!-- край на основния контейнер -->
+</div>
 {% endblock %}
