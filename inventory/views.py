@@ -65,3 +65,4 @@ class EquipmentDeleteView(DeleteView):
     model = Equipment
     template_name = 'inventory/equipment_confirm_delete.html'
     success_url = reverse_lazy('inventory:equipment_list')
+

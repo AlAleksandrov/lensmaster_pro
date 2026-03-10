@@ -19,6 +19,55 @@ class BookingCreateView(CreateView):
         return form
 
 
+class BookingListView(ListView):
+    model = BookingRequest
+    template_name = 'bookings/booking_list.html'
+    context_object_name = 'bookings'
+    paginate_by = 3
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        status = self.request.GET.get('status', '').strip()
+        q = self.request.GET.get('q', '').strip()
+
+        if status:
+            qs = qs.filter(status=status)
+
+        if q:
+            qs = qs.filter(
+                Q(first_name__icontains=q)
+                    |
+                Q(last_name__icontains=q)
+                    |
+                Q(email__icontains=q)
+                    |
+                Q(phone__icontains=q)
+
+            )
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['status_choices'] = BookingRequest.Status.choices
+        context['current_status'] = self.request.GET.get('status', '')
+        context['search_query'] = self.request.GET.get('q', '')
+        return context
+
+
+class BookingUpdateView(UpdateView):
+    model = BookingRequest
+    fields = ['status', 'internal_notes', 'event_date', 'package']
+    template_name = 'bookings/booking_edit.html'
+    success_url = reverse_lazy('bookings:booking_list')
+
+
+class BookingDeleteView(DeleteView):
+    model = BookingRequest
+    template_name = 'bookings/booking_confirm_delete.html'
+    success_url = reverse_lazy('bookings:booking_list')
+
+
 class ServicePackageListView(ListView):
     model = ServicePackage
     template_name = 'bookings/package_list.html'
