@@ -7,6 +7,7 @@ app_name = 'bookings'
 service_package_patterns = [
     path('', views.ServicePackageListView.as_view(), name='package_list'),
     path('create/', views.ServicePackageCreateView.as_view(), name='package_create'),
+    path('by_category/<int:category_id>/', views.ServicePackageByCategoryListView.as_view(), name='package_list_by_category'),
     path('<int:pk>/', include([
         path('', views.ServicePackageDetailView.as_view(), name='package_detail'),
         path('edit/', views.ServicePackageUpdateView.as_view(), name='package_edit'),

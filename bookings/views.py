@@ -2,6 +2,9 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 from bookings.forms import BookingRequestForm, ServicePackageForm
 from bookings.models import BookingRequest, ServicePackage
+from django.db.models import Q
+
+from productions.models import Category
 
 
 # Create your views here.
@@ -108,3 +111,17 @@ class ServicePackageDeleteView(DeleteView):
     template_name = 'bookings/package_confirm_delete.html'
     success_url = reverse_lazy('bookings:package_list')
 
+
+class ServicePackageByCategoryListView(ListView):
+    model = ServicePackage
+    template_name = 'bookings/package_list_by_category.html'
+    context_object_name = 'packages'
+    paginate_by = 2
+
+    def get_queryset(self):
+        return ServicePackage.objects.filter(category_id=self.kwargs['category_id']).order_by('price')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_category'] = Category.objects.get(pk=self.kwargs['category_id']).name
+        return context

@@ -39,8 +39,12 @@
                            href="{% url 'inventory:equipment_list' %}">Our Gear</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.app_name == 'bookings' %}active{% endif %}"
+                        <a class="nav-link {% if request.resolver_match.app_name == 'bookings' and 'package' in request.resolver_match.url_name %}active{% endif %}"
                            href="{% url 'bookings:package_list' %}">Packages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.app_name == 'bookings' and 'booking' in request.resolver_match.url_name %}active{% endif %}"
+                           href="{% url 'bookings:booking_list' %}">Bookings</a>
                     </li>
                     <li class="nav-item ms-lg-3">
                         <a class="btn btn-success rounded-pill px-4 fw-semibold"
@@ -55,6 +59,43 @@
     <main class="container min-vh-100">
         {% block content %}
         {% endblock %}
+
+        {% if is_paginated %}
+        {% block pagination %}
+        <nav class="mt-4 mb-5">
+            <ul class="pagination justify-content-center flex-wrap gap-1">
+
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link rounded-pill px-3"
+                       href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                        ←
+                    </a>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                    <a class="page-link rounded-pill px-3"
+                       href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                        {{ num }}
+                    </a>
+                </li>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link rounded-pill px-3"
+                       href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                        →
+                    </a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </nav>
+        {% endblock pagination %}
+        {% endif %}
     </main>
 
     <!-- Footer -->

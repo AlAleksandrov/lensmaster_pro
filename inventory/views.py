@@ -26,6 +26,7 @@ class EquipmentListView(ListView):
             if items_in_group:
                 grouped.append({
                     'type': label,
+                    'type_val': val,
                     'items': items_in_group,
                 })
 
@@ -65,4 +66,29 @@ class EquipmentDeleteView(DeleteView):
     model = Equipment
     template_name = 'inventory/equipment_confirm_delete.html'
     success_url = reverse_lazy('inventory:equipment_list')
+
+
+class EquipmentByTypeListView(ListView):
+    model = Equipment
+    template_name = 'inventory/equipment_list_by_type.html'
+    context_object_name = 'equipment_list'
+    paginate_by = 2
+
+    def get_queryset(self):
+        self.equipment_type = self.kwargs['equipment_type']
+        return Equipment.objects.filter(
+            equipment_type=self.equipment_type,
+            is_active=True
+        ).order_by('brand', 'model')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_type'] = self.equipment_type
+
+        for val, label in Equipment.EquipmentType.choices:
+            if val == self.equipment_type:
+                context['type_label'] = label
+                break
+        return context
 

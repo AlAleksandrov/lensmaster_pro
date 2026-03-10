@@ -51,7 +51,7 @@ class ProductionByCategoryListView(ListView):
     model = Production
     template_name = 'productions/production_list.html'
     context_object_name = 'productions'
-    paginate_by = 1
+    paginate_by = 2
 
     def get_queryset(self):
         qs = Production.objects.filter(category__slug=self.kwargs['slug']).order_by('-created_at')

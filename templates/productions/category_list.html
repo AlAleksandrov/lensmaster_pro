@@ -96,44 +96,4 @@
     <p>Add some productions in the Admin panel!</p>
 </div>
 {% endfor %}
-<!-- PAGINATION SECTION -->
-<div>
-    {% if is_paginated %}
-    <nav class="mt-5 d-flex justify-content-center" aria-label="Portfolio pagination">
-        <ul class="pagination gap-1">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link rounded-pill px-3 bg-dark text-white border-secondary"
-                   href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-            </li>
-            {% endif %}
-
-            {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                <li class="page-item active">
-                    <span class="page-link rounded-pill px-3 bg-primary border-primary text-white">{{ num }}</span>
-                </li>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <li class="page-item">
-                    <a class="page-link rounded-pill px-3 bg-dark text-white border-secondary"
-                       href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}">{{ num }}</a>
-                </li>
-                {% endif %}
-            {% endfor %}
-
-            {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link rounded-pill px-3 bg-dark text-white border-secondary"
-                   href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">
-                    <i class="bi bi-chevron-right"></i>
-                </a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
-
-</div>
 {% endblock %}
