@@ -39,6 +39,11 @@ ALLOWED_HOSTS.extend([
     "rosella-unshotted-adjustably.ngrok-free.dev",
     'lensmaster-pro.onrender.com',
     'lensmasterpro-apckfyhscgf5dsbq.spaincentral-01.azurewebsites.net',
+    '.azurewebsites.net',
+    # Azure internal health check IPs
+    '169.254.130.4',
+    '169.254.130.1',
+    '0.0.0.0',
 ])
 
 CSRF_TRUSTED_ORIGINS = ([
@@ -112,13 +117,29 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# Database configuration - always start with SQLite fallback
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
 DATABASES = {
-    "default": dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=not DEBUG,
-    )
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
 }
+
+# Override with DATABASE_URL configuration if it exists and is valid
+if DATABASE_URL and DATABASE_URL.strip():
+    try:
+        db_config = dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=not DEBUG,
+        )
+        if db_config and db_config.get('ENGINE'):
+            DATABASES['default'] = db_config
+    except Exception as e:
+        import logging
+        logging.warning(f"Failed to parse DATABASE_URL, using SQLite fallback: {e}")
 
 
 # Password validation
