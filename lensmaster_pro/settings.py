@@ -117,9 +117,10 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# Dual-platform database configuration:
-# - Render: Uses DATABASE_URL environment variable (PostgreSQL)
-# - Azure/Local: Falls back to SQLite when DATABASE_URL is not set
+# Multi-platform database configuration:
+# - Priority 1: Render - Uses DATABASE_URL environment variable (PostgreSQL)
+# - Priority 2: Azure - Uses individual DB_* environment variables (PostgreSQL)
+# - Priority 3: Local - Falls back to SQLite for development
 if os.environ.get('DATABASE_URL'):
     # Render configuration - use dj_database_url for PostgreSQL
     DATABASES = {
@@ -129,8 +130,23 @@ if os.environ.get('DATABASE_URL'):
             ssl_require=not DEBUG,
         )
     }
+elif os.environ.get('DB_ENGINE'):
+    # Azure configuration - use individual DB_* environment variables for PostgreSQL
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('DB_ENGINE'),
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASSWORD'),
+            'HOST': os.environ.get('DB_HOST'),
+            'PORT': os.environ.get('DB_PORT', '5432'),
+            'OPTIONS': {
+                'sslmode': 'require',
+            },
+        }
+    }
 else:
-    # Azure/local fallback to SQLite
+    # Local development fallback to SQLite
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

@@ -4,16 +4,17 @@ This document outlines the fixes made to resolve deployment issues with both Azu
 
 ---
 
-## Dual-Platform Database Configuration
+## Multi-Platform Database Configuration
 
-The application is configured to work on both **Render** (with PostgreSQL) and **Azure App Service** (with SQLite).
+The application is configured to work on **Render** (PostgreSQL via DATABASE_URL), **Azure App Service** (PostgreSQL via individual DB_* variables), and **local development** (SQLite).
 
 ### How It Works
 
 ```python
-# Dual-platform database configuration:
-# - Render: Uses DATABASE_URL environment variable (PostgreSQL)
-# - Azure/Local: Falls back to SQLite when DATABASE_URL is not set
+# Multi-platform database configuration:
+# - Priority 1: Render - Uses DATABASE_URL environment variable (PostgreSQL)
+# - Priority 2: Azure - Uses individual DB_* environment variables (PostgreSQL)
+# - Priority 3: Local - Falls back to SQLite for development
 if os.environ.get('DATABASE_URL'):
     # Render configuration - use dj_database_url for PostgreSQL
     DATABASES = {
@@ -23,8 +24,23 @@ if os.environ.get('DATABASE_URL'):
             ssl_require=not DEBUG,
         )
     }
+elif os.environ.get('DB_ENGINE'):
+    # Azure configuration - use individual DB_* environment variables for PostgreSQL
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('DB_ENGINE'),
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASSWORD'),
+            'HOST': os.environ.get('DB_HOST'),
+            'PORT': os.environ.get('DB_PORT', '5432'),
+            'OPTIONS': {
+                'sslmode': 'require',
+            },
+        }
+    }
 else:
-    # Azure/local fallback to SQLite
+    # Local development fallback to SQLite
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -35,11 +51,50 @@ else:
 
 ### Platform Configuration
 
-| Platform | DATABASE_URL | Database Used |
-|----------|--------------|---------------|
-| Render   | Set (PostgreSQL URL) | PostgreSQL via dj_database_url |
-| Azure    | Not set | SQLite (local file) |
-| Local Dev | Not set | SQLite (local file) |
+| Platform | Configuration Method | Database Used |
+|----------|---------------------|---------------|
+| Render   | `DATABASE_URL` env var | PostgreSQL via dj_database_url |
+| Azure    | Individual `DB_*` env vars | PostgreSQL via psycopg2 |
+| Local Dev | None | SQLite (local file) |
+
+---
+
+## Azure App Service Configuration
+
+### Required Environment Variables for Azure PostgreSQL
+
+Add these environment variables in **Azure Portal → App Service → Configuration → Application settings**:
+
+| Variable | Value | Example |
+|----------|-------|---------|
+| `DB_ENGINE` | `django.db.backends.postgresql` | `django.db.backends.postgresql` |
+| `DB_NAME` | Your database name | `lensmaster_db` |
+| `DB_USER` | Database username | `lensmaster_admin` |
+| `DB_PASSWORD` | Database password | `your-secure-password` |
+| `DB_HOST` | PostgreSQL server hostname | `lensmaster-server.postgres.database.azure.com` |
+| `DB_PORT` | PostgreSQL port (default: 5432) | `5432` |
+| `SECRET_KEY` | Django secret key | `your-django-secret-key` |
+| `DEBUG` | Set to False in production | `False` |
+| `ALLOWED_HOSTS` | Your Azure domain | `lensmasterpro-xxx.azurewebsites.net` |
+
+### Optional Environment Variables
+
+| Variable | Purpose | Example |
+|----------|---------|---------|
+| `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name | `your-cloud-name` |
+| `CLOUDINARY_API_KEY` | Cloudinary API key | `123456789012345` |
+| `CLOUDINARY_API_SECRET` | Cloudinary API secret | `your-api-secret` |
+
+### Azure PostgreSQL Setup
+
+1. **Create Azure Database for PostgreSQL** (Flexible Server recommended)
+2. **Configure networking** to allow Azure services access
+3. **Add environment variables** to App Service Configuration
+4. **Run migrations** via SSH or deployment script:
+   ```bash
+   python manage.py migrate
+   python manage.py collectstatic --noinput
+   ```
 
 ---
 
