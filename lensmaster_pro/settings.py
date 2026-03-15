@@ -33,19 +33,7 @@ DEBUG = os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",") if os.getenv("ALLOWED_HOSTS") else []
 
-ALLOWED_HOSTS.extend([
-    "127.0.0.1",
-    "localhost",
-    "rosella-unshotted-adjustably.ngrok-free.dev",
-    'lensmaster-pro.onrender.com',
-])
-
-CSRF_TRUSTED_ORIGINS = ([
-    "http://127.0.0.1",
-    "http://localhost",
-    "https://rosella-unshotted-adjustably.ngrok-free.dev",
-    'https://lensmaster-pro.onrender.com',
-])
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if os.getenv("CSRF_TRUSTED_ORIGINS") else []
 
 # Application definition
 
@@ -60,13 +48,13 @@ PROJECT_APPS = [
 
 INSTALLED_APPS = [
     'unfold',
-    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
     'cloudinary',
 ] + PROJECT_APPS
 
