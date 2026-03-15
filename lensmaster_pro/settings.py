@@ -39,6 +39,9 @@ ALLOWED_HOSTS.extend([
     "rosella-unshotted-adjustably.ngrok-free.dev",
     'lensmaster-pro.onrender.com',
     'lensmasterpro-apckfyhscgf5dsbq.spaincentral-01.azurewebsites.net',
+    '169.254.130.4',
+    '169.254.130.1',
+    '0.0.0.0',
 ])
 
 CSRF_TRUSTED_ORIGINS = ([
@@ -47,6 +50,9 @@ CSRF_TRUSTED_ORIGINS = ([
     "https://rosella-unshotted-adjustably.ngrok-free.dev",
     'https://lensmaster-pro.onrender.com',
     'https://lensmasterpro-apckfyhscgf5dsbq.spaincentral-01.azurewebsites.net',
+    'https://169.254.130.4',
+    'https://169.254.130.1',
+    'https://0.0.0.0',
 ])
 
 # Application definition
@@ -112,14 +118,40 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=not DEBUG,
-    )
-}
-
+if os.environ.get('DATABASE_URL'):
+    # Render
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
+            conn_max_age=600,
+            ssl_require=not DEBUG,
+        )
+    }
+elif os.environ.get('DB_ENGINE'):
+    # Azure PostgresSQL
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('DB_ENGINE'),
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASSWORD'),
+            'HOST': os.environ.get('DB_HOST'),
+            'PORT': os.environ.get('DB_PORT'),
+            'OPTIONS': {'sslmode': 'require'}
+        }
+    }
+else:
+    # Local PostgresSQL
+    DATABASES = {
+        "default": {
+            "ENGINE": os.getenv("DB_ENGINE"),
+            "NAME": os.getenv("DB_NAME"),
+            "USER": os.getenv("DB_USER"),
+            "PASSWORD": os.getenv("DB_PASSWORD"),
+            "HOST": os.getenv("DB_HOST"),
+            "PORT": os.getenv("DB_PORT"),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
