@@ -40,10 +40,11 @@ ALLOWED_HOSTS.extend([
     'lensmaster-pro.onrender.com',
     'lensmasterpro-apckfyhscgf5dsbq.spaincentral-01.azurewebsites.net',
     'lensmasterpro.azurewebsites.net',
-    '169.254.130.4',
-    '169.254.130.1',
     '0.0.0.0',
 ])
+
+for i in range(256):
+    ALLOWED_HOSTS.append(f'169.254.130.{i}')
 
 CSRF_TRUSTED_ORIGINS = ([
     "http://127.0.0.1",
@@ -52,9 +53,6 @@ CSRF_TRUSTED_ORIGINS = ([
     'https://lensmaster-pro.onrender.com',
     'https://lensmasterpro-apckfyhscgf5dsbq.spaincentral-01.azurewebsites.net',
     'https://lensmasterpro.azurewebsites.net',
-    'https://169.254.130.4',
-    'https://169.254.130.1',
-    'https://0.0.0.0',
 ])
 
 # Application definition
