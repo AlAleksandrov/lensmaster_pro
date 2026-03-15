@@ -117,29 +117,26 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# Database configuration - always start with SQLite fallback
-DATABASE_URL = os.environ.get('DATABASE_URL')
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
-# Override with DATABASE_URL configuration if it exists and is valid
-if DATABASE_URL and DATABASE_URL.strip():
-    try:
-        db_config = dj_database_url.config(
-            default=DATABASE_URL,
+# Dual-platform database configuration:
+# - Render: Uses DATABASE_URL environment variable (PostgreSQL)
+# - Azure/Local: Falls back to SQLite when DATABASE_URL is not set
+if os.environ.get('DATABASE_URL'):
+    # Render configuration - use dj_database_url for PostgreSQL
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
             conn_max_age=600,
             ssl_require=not DEBUG,
         )
-        if db_config and db_config.get('ENGINE'):
-            DATABASES['default'] = db_config
-    except Exception as e:
-        import logging
-        logging.warning(f"Failed to parse DATABASE_URL, using SQLite fallback: {e}")
+    }
+else:
+    # Azure/local fallback to SQLite
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
