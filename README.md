@@ -136,6 +136,8 @@ A temporary live demo will be available here:
 
 - [Live Demo Link Render](https://lensmaster-pro.onrender.com/)
 
+- [Live Demo Link Azure](https://lensmasterpro-apckfyhscgf5dsbq.spaincentral-01.azurewebsites.net/)
+
 ---
 
 ## 🖼️ Screenshots
